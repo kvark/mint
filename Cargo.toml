@@ -1,0 +1,6 @@
+[package]
+name = "mint"
+version = "0.1.0"
+authors = ["Dzmitry Malyshau <kvarkus@gmail.com>"]
+
+[dependencies]
