@@ -5,7 +5,6 @@ Defines basic math types useful for computer graphics via the built-in Rust type
 Designed to serve as an interoperability standard between libraries
 that do not necessarily depend on `mint` directly.
 */
-
 #![deny(missing_docs)]
 
 /// Vector in 2D space.
@@ -16,7 +15,9 @@ pub type Vector3<T> = [T; 3];
 /// Useful as a homogeneous 3D vector representation.
 pub type Vector4<T> = [T; 4];
 
-/// Standard quaternion.
+/// Euler rotation angles in 3D space.
+pub type EulerAngles<T> = [T; 3];
+/// Standard quaternion represented by the scalar and vector parts.
 /// Useful for representing rotation in 3D space.
 pub type Quaternion<T> = (T, Vector3<T>);
 /// Dual quaternion.
