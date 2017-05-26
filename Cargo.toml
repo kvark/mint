@@ -2,5 +2,10 @@
 name = "mint"
 version = "0.1.0"
 authors = ["Dzmitry Malyshau <kvarkus@gmail.com>"]
+description = "Math interoperability standard types"
+license = "MIT"
+repository = "https://github.com/kvark/mint"
+documentation = "https://docs.rs/mint"
+keywords = ["math"]
 
 [dependencies]
