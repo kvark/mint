@@ -25,28 +25,25 @@ pub type Quaternion<T> = (T, Vector3<T>);
 /// because of better interpolation quality.
 pub type DualQuaternion<T> = (Quaternion<T>, Quaternion<T>);
 
-/// Row-major 2x2 matrix.
-pub type RowMatrix2<T> = [[T; 2]; 2];
-/// Row-major 3x2 matrix.
-/// Useful for combinging rotation, scale, and translation in 2D space.
-pub type RowMatrix3x2<T> = [[T; 3]; 2];
-/// Row-major 3x3 matrix.
-pub type RowMatrix3<T> = [[T; 3]; 3];
-/// Row-major 4x3 matrix.
-/// Useful for combinging rotation, scale, and translation in 3D space.
-pub type RowMatrix4x3<T> = [[T; 4]; 3];
-/// Row-major 4x4 matrix.
-pub type RowMatrix4<T> = [[T; 4]; 4];
-
-/// Column-major 2x2 matrix.
-pub type ColMatrix2<T> = [[T; 2]; 2];
-/// Column-major 2x3 matrix.
-/// Useful for combinging rotation, scale, and translation in 2D space.
-pub type ColMatrix2x3<T> = [[T; 2]; 3];
-/// Column-major 3x3 matrix.
-pub type ColMatrix3<T> = [[T; 3]; 3];
-/// Column-major 3x4 matrix.
-/// Useful for combinging rotation, scale, and translation in 3D space.
-pub type ColMatrix3x4<T> = [[T; 3]; 4];
-/// Column-major 4x4 matrix.
-pub type ColMatrix4<T> = [[T; 4]; 4];
+/// 2x2 matrix.
+pub type Matrix2<T> = [[T; 2]; 2];
+/// 2x3 matrix.
+/// Useful for combinging rotation, scale, and translation in 2D space,
+/// when stored as column-major.
+pub type Matrix2x3<T> = [[T; 2]; 3];
+/// 3x2 matrix.
+/// Useful for combinging rotation, scale, and translation in 2D space,
+/// when stored as row-major.
+pub type Matrix3x2<T> = [[T; 3]; 2];
+/// 3x3 matrix.
+pub type Matrix3<T> = [[T; 3]; 3];
+/// 3x4 matrix.
+/// Useful for combinging rotation, scale, and translation in 3D space,
+/// when stored as column major.
+pub type Matrix3x4<T> = [[T; 3]; 4];
+/// 4x3 matrix.
+/// Useful for combinging rotation, scale, and translation in 3D space,
+/// when stored as row major.
+pub type Matrix4x3<T> = [[T; 4]; 3];
+/// 4x4 matrix.
+pub type Matrix4<T> = [[T; 4]; 4];
