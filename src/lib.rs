@@ -16,7 +16,7 @@ pub type Vector3<T> = [T; 3];
 pub type Vector4<T> = [T; 4];
 
 /// Euler rotation angles in 3D space.
-pub type EulerAngles<T> = [T; 3];
+pub type EulerAngles<T> = (T, T, T);
 /// Standard quaternion represented by the scalar and vector parts.
 /// Useful for representing rotation in 3D space.
 pub type Quaternion<T> = (T, Vector3<T>);
@@ -47,3 +47,7 @@ pub type Matrix3x4<T> = [[T; 3]; 4];
 pub type Matrix4x3<T> = [[T; 4]; 3];
 /// 4x4 matrix.
 pub type Matrix4<T> = [[T; 4]; 4];
+
+/// A 3D transform represented by separate rotation quaternion,
+/// uniform scale, and a position vector.
+pub type QuatScalePos<T> = (Quaternion<T>, T, Vector3<T>);
