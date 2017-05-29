@@ -51,3 +51,7 @@ pub type Matrix4<T> = [[T; 4]; 4];
 /// A 3D transform represented by separate rotation quaternion,
 /// uniform scale, and a position vector.
 pub type QuatScalePos<T> = (Quaternion<T>, T, Vector3<T>);
+
+/// A 3D transform represented by separate euler angles for rotation,
+/// uniform scale, and a position vector.
+pub type EulerScalePos<T> = (EulerAngles<T>, T, Vector3<T>);
