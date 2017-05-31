@@ -1,5 +1,6 @@
 /// Vector in 2D space.
 #[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
+#[repr(C)]
 pub struct Vector2<T> {
     /// X component of a vector.
     pub x: T,
@@ -25,6 +26,7 @@ impl<T> Into<[T; 2]> for Vector2<T> {
 
 /// Vector in 3D space.
 #[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
+#[repr(C)]
 pub struct Vector3<T> {
     /// X component of a vector.
     pub x: T,
@@ -54,6 +56,7 @@ impl<T> Into<[T; 3]> for Vector3<T> {
 /// Vector in 4D space.
 /// Useful as a homogeneous 3D vector representation.
 #[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
+#[repr(C)]
 pub struct Vector4<T> {
     /// X component of a vector.
     pub x: T,

@@ -2,37 +2,39 @@ use vector::Vector3;
 
 
 /// Euler rotation angles in 3D space.
+#[repr(C)]
 pub struct EulerAngles<T> {
-    /// Angle between the x axis and the N axis, also known as "phi".
-    pub a: T,
-    /// Angle between the z axis and the Z axis, also known as "theta".
-    pub b: T,
-    /// Angle between the N axis and the X axis, also known as "psi".
+    /// Angle of rotation around X axis in range [-pi, pi] (_pitch_).
+    pub x: T,
+    /// Angle of rotation around Y axis in range [-pi/2, pi/2] (_yaw_).
     pub y: T,
+    /// Angle of rotation around Z axis in range [-pi, pi] (_roll_).
+    pub z: T,
 }
 
 impl<T: Clone> From<[T; 3]> for EulerAngles<T> {
     fn from(v: [T; 3]) -> Self {
         EulerAngles {
-            a: v[0].clone(),
-            b: v[1].clone(),
-            y: v[2].clone(),
+            x: v[0].clone(),
+            y: v[1].clone(),
+            z: v[2].clone(),
         }
     }
 }
 
 impl<T> Into<[T; 3]> for EulerAngles<T> {
     fn into(self) -> [T; 3] {
-        [self.a, self.b, self.y]
+        [self.x, self.y, self.z]
     }
 }
 
 
 /// Standard quaternion represented by the scalar and vector parts.
 /// Useful for representing rotation in 3D space.
+#[repr(C)]
 pub struct Quaternion<T> {
     /// Scalar part of a quaternion.
-    pub r: T,
+    pub s: T,
     /// Vector part of a quaternion.
     pub v: Vector3<T>,
 }
@@ -40,7 +42,7 @@ pub struct Quaternion<T> {
 impl<T: Clone> From<[T; 4]> for Quaternion<T> {
     fn from(v: [T; 4]) -> Self {
         Quaternion {
-            r: v[3].clone(),
+            s: v[3].clone(),
             v: Vector3 {
                 x: v[0].clone(),
                 y: v[1].clone(),
@@ -52,6 +54,6 @@ impl<T: Clone> From<[T; 4]> for Quaternion<T> {
 
 impl<T> Into<[T; 4]> for Quaternion<T> {
     fn into(self) -> [T; 4] {
-        [self.v.x, self.v.y, self.v.z, self.r]
+        [self.v.x, self.v.y, self.v.z, self.s]
     }
 }
