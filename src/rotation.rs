@@ -1,5 +1,6 @@
 use vector::Vector3;
 
+
 /// Euler rotation angles in 3D space.
 pub struct EulerAngles<T> {
     /// Angle between the x axis and the N axis, also known as "phi".
@@ -25,6 +26,7 @@ impl<T> Into<[T; 3]> for EulerAngles<T> {
         [self.a, self.b, self.y]
     }
 }
+
 
 /// Standard quaternion represented by the scalar and vector parts.
 /// Useful for representing rotation in 3D space.
