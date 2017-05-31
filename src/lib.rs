@@ -6,20 +6,12 @@ Designed to serve as an interoperability standard between libraries.
 */
 #![deny(missing_docs)]
 
+mod rotation;
 mod vector;
 
+pub use rotation::{EulerAngles, Quaternion};
 pub use vector::{Vector2, Vector3, Vector4};
 
-
-/// Euler rotation angles in 3D space.
-pub type EulerAngles<T> = (T, T, T);
-/// Standard quaternion represented by the scalar and vector parts.
-/// Useful for representing rotation in 3D space.
-pub type Quaternion<T> = (T, Vector3<T>);
-/// Dual quaternion.
-/// Useful for representing both translation and rotation,
-/// because of better interpolation quality.
-pub type DualQuaternion<T> = (Quaternion<T>, Quaternion<T>);
 
 /// 2x2 matrix.
 pub type Matrix2<T> = [[T; 2]; 2];
@@ -51,3 +43,8 @@ pub type QuatScalePos<T> = (Quaternion<T>, T, Vector3<T>);
 /// A 3D transform represented by separate euler angles for rotation,
 /// uniform scale, and a position vector.
 pub type EulerScalePos<T> = (EulerAngles<T>, T, Vector3<T>);
+
+/// Dual quaternion.
+/// Useful for representing both translation and rotation,
+/// because of better interpolation quality.
+pub type DualQuaternion<T> = (Quaternion<T>, Quaternion<T>);
