@@ -1,19 +1,15 @@
 /*!
 Mint - Math interoperability standard types.
 
-Defines basic math types useful for computer graphics via the built-in Rust types.
-Designed to serve as an interoperability standard between libraries
-that do not necessarily depend on `mint` directly.
+Defines basic math types useful for computer graphics.
+Designed to serve as an interoperability standard between libraries.
 */
 #![deny(missing_docs)]
 
-/// Vector in 2D space.
-pub type Vector2<T> = [T; 2];
-/// Vector in 3D space.
-pub type Vector3<T> = [T; 3];
-/// Vector in 4D space.
-/// Useful as a homogeneous 3D vector representation.
-pub type Vector4<T> = [T; 4];
+mod vector;
+
+pub use vector::{Vector2, Vector3, Vector4};
+
 
 /// Euler rotation angles in 3D space.
 pub type EulerAngles<T> = (T, T, T);
