@@ -1,6 +1,6 @@
 [package]
 name = "mint"
-version = "0.3.0"
+version = "0.4.0"
 authors = ["Dzmitry Malyshau <kvarkus@gmail.com>"]
 description = "Math interoperability standard types"
 license = "MIT"

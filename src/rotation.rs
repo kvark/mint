@@ -1,66 +1,5 @@
+use std::marker::PhantomData;
 use vector::Vector3;
-
-
-/// Tait-Bryan rotation angles in ZYX convention, that is:
-///   - first, rotation around Z axis is done
-///   - next, rotation around the new Y axis is done
-///   - finally, rotation around the new X axis is done
-#[repr(C)]
-pub struct TaitBryanAngles<T> {
-    /// Angle of rotation around X axis in range [-pi, pi] (_pitch_).
-    pub x: T,
-    /// Angle of rotation around Y axis in range [-pi/2, pi/2] (_yaw_).
-    pub y: T,
-    /// Angle of rotation around Z axis in range [-pi, pi] (_roll_).
-    pub z: T,
-}
-
-impl<T: Clone> From<[T; 3]> for TaitBryanAngles<T> {
-    fn from(v: [T; 3]) -> Self {
-        TaitBryanAngles {
-            x: v[0].clone(),
-            y: v[1].clone(),
-            z: v[2].clone(),
-        }
-    }
-}
-
-impl<T> Into<[T; 3]> for TaitBryanAngles<T> {
-    fn into(self) -> [T; 3] {
-        [self.x, self.y, self.z]
-    }
-}
-
-
-/// Proper Euler rotation angles in ZXZ convention, that is:
-///   - first, rotation around Z axis is done
-///   - next, rotation around the original X axis is done
-///   - finally, rotation around the original Z axis is done again
-#[repr(C)]
-pub struct ProperEulerAngles<T> {
-    /// Angle of rotation around Z axis in range [-pi, pi].
-    pub alpha: T,
-    /// Angle of rotation around X axis in range [-pi/2, pi/2].
-    pub beta: T,
-    /// Angle of rotation around Z axis in range [-pi, pi].
-    pub gamma: T,
-}
-
-impl<T: Clone> From<[T; 3]> for ProperEulerAngles<T> {
-    fn from(v: [T; 3]) -> Self {
-        ProperEulerAngles {
-            alpha: v[0].clone(),
-            beta: v[1].clone(),
-            gamma: v[2].clone(),
-        }
-    }
-}
-
-impl<T> Into<[T; 3]> for ProperEulerAngles<T> {
-    fn into(self) -> [T; 3] {
-        [self.alpha, self.beta, self.gamma]
-    }
-}
 
 
 /// Standard quaternion represented by the scalar and vector parts.
@@ -91,3 +30,77 @@ impl<T> Into<[T; 4]> for Quaternion<T> {
         [self.v.x, self.v.y, self.v.z, self.s]
     }
 }
+
+
+/// Abstract set of Euler angles in 3D space. The basis of angles
+/// is defined by the generic parameter `B`.
+///
+/// Note: there are multiple notations of Euler angles. They are
+/// split in two groups:
+///   - intrinsic (also known as "Tait-Bryan angles"): rotate around local axis
+///   - extrinsic (also known as "Proper Euler angles"): rotate around world axis
+/// For each interpretation, different axis may be choosen in different order.
+#[repr(C)]
+pub struct EuluerAngles<T, B> {
+    /// First angle of rotation in range [-pi, pi] (_pitch_).
+    pub a: T,
+    /// Second angle of rotation around in range [-pi/2, pi/2] (_yaw_).
+    pub b: T,
+    /// Third angle of rotation in range [-pi, pi] (_roll_).
+    pub c: T,
+    /// Marker for the phantom basis.
+    pub marker: PhantomData<B>,
+}
+
+impl<T: Clone, B> From<[T; 3]> for EuluerAngles<T, B> {
+    fn from(v: [T; 3]) -> Self {
+        EuluerAngles {
+            a: v[0].clone(),
+            b: v[1].clone(),
+            c: v[2].clone(),
+            marker: PhantomData,
+        }
+    }
+}
+
+impl<T, B> Into<[T; 3]> for EuluerAngles<T, B> {
+    fn into(self) -> [T; 3] {
+        [self.a, self.b, self.c]
+    }
+}
+
+/// Intrinsic rotation around X, then Y, then Z axis.
+pub enum IntraXYZ {}
+/// Intrinsic rotation around Z, then X, then Z axis.
+pub enum IntraZXZ {}
+/// Intrinsic rotation around Z, then Y, then X axis.
+pub enum IntraZYX {}
+/// Extrinsic rotation around X, then Y, then Z axis.
+pub enum ExtraXYZ {}
+/// Extrinsic rotation around Z, then X, then Z axis.
+pub enum ExtraZXZ {}
+/// Extrinsic rotation around Z, then Y, then X axis.
+pub enum ExtraZYX {}
+
+macro_rules! reverse {
+    ($from:ident -> $to:ident) => {
+        impl<T> From<EuluerAngles<T, $from>> for EuluerAngles<T, $to> {
+            fn from(other: EuluerAngles<T, $from>) -> Self {
+                EuluerAngles {
+                    a: other.c,
+                    b: other.b,
+                    c: other.a,
+                    marker: PhantomData,
+                }
+            }
+        }
+    };
+    ($from:ident <-> $to:ident) => {
+        reverse!($from -> $to);
+        reverse!($to -> $from);
+    };
+}
+
+reverse!(IntraXYZ <-> ExtraZYX);
+reverse!(IntraZXZ <-> ExtraZXZ);
+reverse!(IntraZYX <-> ExtraXYZ);
