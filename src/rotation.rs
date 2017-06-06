@@ -91,9 +91,9 @@ impl<T, B> Into<[T; 4]> for LeftQuaternion<T, B> {
 /// split in two groups:
 ///   - intrinsic (also known as "Tait-Bryan angles"): rotate around local axis
 ///   - extrinsic (also known as "Proper Euler angles"): rotate around world axis
-/// For each interpretation, different axis may be choosen in different order.
+/// For each interpretation, different axis may be chosen in different order.
 #[repr(C)]
-pub struct EuluerAngles<T, B> {
+pub struct EulerAngles<T, B> {
     /// First angle of rotation in range [-pi, pi] (_pitch_).
     pub a: T,
     /// Second angle of rotation around in range [-pi/2, pi/2] (_yaw_).
@@ -117,9 +117,9 @@ pub enum ExtraZXZ {}
 /// Extrinsic rotation around Z, then Y, then X axis.
 pub enum ExtraZYX {}
 
-impl<T: Clone, B> From<[T; 3]> for EuluerAngles<T, B> {
+impl<T: Clone, B> From<[T; 3]> for EulerAngles<T, B> {
     fn from(v: [T; 3]) -> Self {
-        EuluerAngles {
+        EulerAngles {
             a: v[0].clone(),
             b: v[1].clone(),
             c: v[2].clone(),
@@ -128,7 +128,7 @@ impl<T: Clone, B> From<[T; 3]> for EuluerAngles<T, B> {
     }
 }
 
-impl<T, B> Into<[T; 3]> for EuluerAngles<T, B> {
+impl<T, B> Into<[T; 3]> for EulerAngles<T, B> {
     fn into(self) -> [T; 3] {
         [self.a, self.b, self.c]
     }
@@ -136,9 +136,9 @@ impl<T, B> Into<[T; 3]> for EuluerAngles<T, B> {
 
 macro_rules! reverse {
     ($from:ident -> $to:ident) => {
-        impl<T> From<EuluerAngles<T, $from>> for EuluerAngles<T, $to> {
-            fn from(other: EuluerAngles<T, $from>) -> Self {
-                EuluerAngles {
+        impl<T> From<EulerAngles<T, $from>> for EulerAngles<T, $to> {
+            fn from(other: EulerAngles<T, $from>) -> Self {
+                EulerAngles {
                     a: other.c,
                     b: other.b,
                     c: other.a,
