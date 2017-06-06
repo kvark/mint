@@ -4,6 +4,7 @@ use vector::Vector3;
 
 /// Standard quaternion represented by the scalar and vector parts.
 /// Useful for representing rotation in 3D space.
+/// Corresponds to a right-handed rotation matrix.
 #[repr(C)]
 pub struct Quaternion<T> {
     /// Scalar part of a quaternion.
@@ -32,6 +33,57 @@ impl<T> Into<[T; 4]> for Quaternion<T> {
 }
 
 
+/// Standard quaternion corresponding to a left-handed
+/// rotation matrix. The exact association of the left-handed basis
+/// that is encoded by this quaternion and a right-handed one
+/// is presented by `B` (for "basis") generic parameter.
+///
+/// Read also:
+/// https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#Orientation
+#[repr(C)]
+pub struct LeftQuaternion<T, B> {
+    /// Scalar part of a quaternion.
+    pub s: T,
+    /// Vector part of a quaternion.
+    pub v: Vector3<T>,
+    /// Marker for the phantom association with the right-handed basis.
+    marker: PhantomData<B>,
+}
+
+/// Basis handedness change by mirroring X axis: x',y',z' = -x,y,z
+pub enum MirrorX {}
+/// Basis handedness change by mirroring Y axis: x',y',z' = x,-y,z
+pub enum MirrorY {}
+/// Basis handedness change by mirroring Z axis: x',y',z' = x,y,-z
+pub enum MirrorZ {}
+/// Basis handedness change by swapping X and Y axis: x',y',z' = y,x,z
+pub enum SwapXY {}
+/// Basis handedness change by swapping Y and Z axis: x',y',z' = x,z,y
+pub enum SwapYZ {}
+/// Basis handedness change by swapping Z and X axis: x',y',z' = z,y,x
+pub enum SwapZX {}
+
+impl<T: Clone, B> From<[T; 4]> for LeftQuaternion<T, B> {
+    fn from(v: [T; 4]) -> Self {
+        LeftQuaternion {
+            s: v[3].clone(),
+            v: Vector3 {
+                x: v[0].clone(),
+                y: v[1].clone(),
+                z: v[2].clone(),
+            },
+            marker: PhantomData,
+        }
+    }
+}
+
+impl<T, B> Into<[T; 4]> for LeftQuaternion<T, B> {
+    fn into(self) -> [T; 4] {
+        [self.v.x, self.v.y, self.v.z, self.s]
+    }
+}
+
+
 /// Abstract set of Euler angles in 3D space. The basis of angles
 /// is defined by the generic parameter `B`.
 ///
@@ -49,8 +101,21 @@ pub struct EuluerAngles<T, B> {
     /// Third angle of rotation in range [-pi, pi] (_roll_).
     pub c: T,
     /// Marker for the phantom basis.
-    pub marker: PhantomData<B>,
+    marker: PhantomData<B>,
 }
+
+/// Intrinsic rotation around X, then Y, then Z axis.
+pub enum IntraXYZ {}
+/// Intrinsic rotation around Z, then X, then Z axis.
+pub enum IntraZXZ {}
+/// Intrinsic rotation around Z, then Y, then X axis.
+pub enum IntraZYX {}
+/// Extrinsic rotation around X, then Y, then Z axis.
+pub enum ExtraXYZ {}
+/// Extrinsic rotation around Z, then X, then Z axis.
+pub enum ExtraZXZ {}
+/// Extrinsic rotation around Z, then Y, then X axis.
+pub enum ExtraZYX {}
 
 impl<T: Clone, B> From<[T; 3]> for EuluerAngles<T, B> {
     fn from(v: [T; 3]) -> Self {
@@ -68,19 +133,6 @@ impl<T, B> Into<[T; 3]> for EuluerAngles<T, B> {
         [self.a, self.b, self.c]
     }
 }
-
-/// Intrinsic rotation around X, then Y, then Z axis.
-pub enum IntraXYZ {}
-/// Intrinsic rotation around Z, then X, then Z axis.
-pub enum IntraZXZ {}
-/// Intrinsic rotation around Z, then Y, then X axis.
-pub enum IntraZYX {}
-/// Extrinsic rotation around X, then Y, then Z axis.
-pub enum ExtraXYZ {}
-/// Extrinsic rotation around Z, then X, then Z axis.
-pub enum ExtraZXZ {}
-/// Extrinsic rotation around Z, then Y, then X axis.
-pub enum ExtraZYX {}
 
 macro_rules! reverse {
     ($from:ident -> $to:ident) => {
