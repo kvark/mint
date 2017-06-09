@@ -5,6 +5,7 @@ use vector::Vector3;
 /// Standard quaternion represented by the scalar and vector parts.
 /// Useful for representing rotation in 3D space.
 /// Corresponds to a right-handed rotation matrix.
+#[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 #[repr(C)]
 pub struct Quaternion<T> {
     /// Scalar part of a quaternion.
@@ -40,6 +41,7 @@ impl<T> Into<[T; 4]> for Quaternion<T> {
 ///
 /// Read also:
 /// https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#Orientation
+#[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 #[repr(C)]
 pub struct LeftQuaternion<T, B> {
     /// Scalar part of a quaternion.
@@ -51,16 +53,22 @@ pub struct LeftQuaternion<T, B> {
 }
 
 /// Basis handedness change by mirroring X axis: x',y',z' = -x,y,z
+#[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 pub enum MirrorX {}
 /// Basis handedness change by mirroring Y axis: x',y',z' = x,-y,z
+#[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 pub enum MirrorY {}
 /// Basis handedness change by mirroring Z axis: x',y',z' = x,y,-z
+#[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 pub enum MirrorZ {}
 /// Basis handedness change by swapping X and Y axis: x',y',z' = y,x,z
+#[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 pub enum SwapXY {}
 /// Basis handedness change by swapping Y and Z axis: x',y',z' = x,z,y
+#[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 pub enum SwapYZ {}
 /// Basis handedness change by swapping Z and X axis: x',y',z' = z,y,x
+#[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 pub enum SwapZX {}
 
 impl<T: Clone, B> From<[T; 4]> for LeftQuaternion<T, B> {
@@ -92,6 +100,7 @@ impl<T, B> Into<[T; 4]> for LeftQuaternion<T, B> {
 ///   - intrinsic (also known as "Tait-Bryan angles"): rotate around local axis
 ///   - extrinsic (also known as "Proper Euler angles"): rotate around world axis
 /// For each interpretation, different axis may be chosen in different order.
+#[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 #[repr(C)]
 pub struct EulerAngles<T, B> {
     /// First angle of rotation in range [-pi, pi] (_pitch_).
@@ -105,16 +114,22 @@ pub struct EulerAngles<T, B> {
 }
 
 /// Intrinsic rotation around X, then Y, then Z axis.
+#[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 pub enum IntraXYZ {}
 /// Intrinsic rotation around Z, then X, then Z axis.
+#[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 pub enum IntraZXZ {}
 /// Intrinsic rotation around Z, then Y, then X axis.
+#[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 pub enum IntraZYX {}
 /// Extrinsic rotation around X, then Y, then Z axis.
+#[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 pub enum ExtraXYZ {}
 /// Extrinsic rotation around Z, then X, then Z axis.
+#[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 pub enum ExtraZXZ {}
 /// Extrinsic rotation around Z, then Y, then X axis.
+#[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 pub enum ExtraZYX {}
 
 impl<T: Clone, B> From<[T; 3]> for EulerAngles<T, B> {
