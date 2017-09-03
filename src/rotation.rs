@@ -14,6 +14,14 @@ pub struct Quaternion<T> {
     pub v: Vector3<T>,
 }
 
+impl<T> AsRef<[T; 4]> for Quaternion<T> {
+    fn as_ref(&self) -> &[T; 4] {
+        unsafe {
+            ::std::mem::transmute(self)
+        }
+    }
+}
+
 impl<T: Clone> From<[T; 4]> for Quaternion<T> {
     fn from(v: [T; 4]) -> Self {
         Quaternion {
@@ -71,6 +79,14 @@ pub enum SwapYZ {}
 #[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 pub enum SwapZX {}
 
+impl<T, B> AsRef<[T; 4]> for LeftQuaternion<T, B> {
+    fn as_ref(&self) -> &[T; 4] {
+        unsafe {
+            ::std::mem::transmute(self)
+        }
+    }
+}
+
 impl<T: Clone, B> From<[T; 4]> for LeftQuaternion<T, B> {
     fn from(v: [T; 4]) -> Self {
         LeftQuaternion {
@@ -90,7 +106,6 @@ impl<T, B> Into<[T; 4]> for LeftQuaternion<T, B> {
         [self.v.x, self.v.y, self.v.z, self.s]
     }
 }
-
 
 /// Abstract set of Euler angles in 3D space. The basis of angles
 /// is defined by the generic parameter `B`.
@@ -131,6 +146,14 @@ pub enum ExtraZXZ {}
 /// Extrinsic rotation around Z, then Y, then X axis.
 #[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 pub enum ExtraZYX {}
+
+impl<T, B> AsRef<[T; 3]> for EulerAngles<T, B> {
+    fn as_ref(&self) -> &[T; 3] {
+        unsafe {
+            ::std::mem::transmute(self)
+        }
+    }
+}
 
 impl<T: Clone, B> From<[T; 3]> for EulerAngles<T, B> {
     fn from(v: [T; 3]) -> Self {
