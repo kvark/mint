@@ -17,6 +17,14 @@ macro_rules! vec {
             }
         }
 
+        impl<T> AsRef<$fixed> for $name<T> {
+            fn as_ref(&self) -> &$fixed {
+                unsafe {
+                    ::std::mem::transmute(self)
+                }
+            }
+        }
+
         impl<T> Into<$fixed> for $name<T> {
             fn into(self) -> $fixed {
                 [$( self.$field.into() ),*]
