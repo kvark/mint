@@ -4,6 +4,7 @@ use std::{mem, ptr};
 macro_rules! matrix {
     ($name:ident : $vec:ident[ $($field:ident = $index:expr),* ] = ($inner:expr, $outer:expr)) => {
         #[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
+        #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
         #[repr(C)]
         #[allow(missing_docs)] //TODO: actually have docs
         pub struct $name<T> {
