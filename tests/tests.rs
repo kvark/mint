@@ -3,13 +3,16 @@ use mint::{
     Vector2, Point2,
     Vector3, Point3,
     Vector4, Quaternion,
-    LeftQuaternion, EulerAngles};
+    LeftQuaternion, EulerAngles,
+};
 use mint::{
     RowMatrix2, RowMatrix2x3,
-    RowMatrix3, RowMatrix3x4, RowMatrix4};
+    RowMatrix3, RowMatrix3x4, RowMatrix4,
+};
 use mint::{
-    ColumnMatrix2, ColumnMatrix3x2,
-    ColumnMatrix3, ColumnMatrix4x3, ColumnMatrix4};
+    ColumnMatrix2, ColumnMatrix2x3,
+    ColumnMatrix3, ColumnMatrix3x4, ColumnMatrix4,
+};
 
 macro_rules! transitive {
     ($name:ident [ $($field:ident = $value:expr),* ] = $fixed:ty) => (
@@ -26,7 +29,7 @@ macro_rules! matrix_transitive {
     )
 }
 
-macro_rules! transpose {
+macro_rules! turn {
     ($name1:ident [$($value1:expr),*] = $name2:ident [$($value2:expr),*]) => (
         let transposed = [$($value2),*];
         let m1 = $name1::from([$($value1),*]);
@@ -69,22 +72,20 @@ fn row_matrix() {
         x=[1,2],
         y=[3,4]]
         = [[i32; 2]; 2]);
-    matrix_transitive!(RowMatrix2x3 Vector2[
-        x=[1,2],
-        y=[3,4],
-        z=[5,6]]
-        = [[i32; 2]; 3]);
+    matrix_transitive!(RowMatrix2x3 Vector3[
+        x=[1,2,3],
+        y=[4,5,6]]
+        = [[i32; 3]; 2]);
     matrix_transitive!(RowMatrix3 Vector3[
         x=[1,2,3],
         y=[4,5,6],
         z=[7,8,9]]
         = [[i32; 3]; 3]);
-    matrix_transitive!(RowMatrix3x4 Vector3[
-        x=[1,2,3],
-        y=[4,5,6],
-        z=[7,8,9],
-        w=[10,11,12]]
-        = [[i32; 3]; 4]);
+    matrix_transitive!(RowMatrix3x4 Vector4[
+        x=[1,2,3,4],
+        y=[5,6,7,8],
+        z=[9,10,11,12]]
+        = [[i32; 4]; 3]);
     matrix_transitive!(RowMatrix4 Vector4[
         x=[1,2,3,4],
         y=[5,6,7,8],
@@ -99,20 +100,22 @@ fn column_matrix() {
         x=[1,2],
         y=[3,4]]
         = [[i32; 2]; 2]);
-    matrix_transitive!(ColumnMatrix3x2 Vector3[
-        x=[1,2,3],
-        y=[4,5,6]]
-        = [[i32; 3]; 2]);
+    matrix_transitive!(ColumnMatrix2x3 Vector2[
+        x=[1,2],
+        y=[3,4],
+        z=[5,6]]
+        = [[i32; 2]; 3]);
     matrix_transitive!(ColumnMatrix3 Vector3[
         x=[1,2,3],
         y=[4,5,6],
         z=[7,8,9]]
         = [[i32; 3]; 3]);
-    matrix_transitive!(ColumnMatrix4x3 Vector4[
-        x=[1,2,3,4],
-        y=[5,6,7,8],
-        z=[9,10,11,12]]
-        = [[i32; 4]; 3]);
+    matrix_transitive!(ColumnMatrix3x4 Vector3[
+        x=[1,2,3],
+        y=[4,5,6],
+        z=[7,8,9],
+        w=[10,11,12]]
+        = [[i32; 3]; 4]);
     matrix_transitive!(ColumnMatrix4 Vector4[
         x=[1,2,3,4],
         y=[5,6,7,8],
@@ -122,21 +125,21 @@ fn column_matrix() {
 }
 
 #[test]
-fn transpose() {
-    transpose!(RowMatrix2 [
+fn turn() {
+    turn!(RowMatrix2 [
         [1,2],
         [3,4]]
         = ColumnMatrix2 [
         [1,3],
         [2,4]]);
-    transpose!(RowMatrix2x3 [
+    turn!(RowMatrix2x3 [
+        [1,3,5],
+        [2,4,6]]
+        = ColumnMatrix2x3 [
         [1,2],
         [3,4],
-        [5,6]]
-        = ColumnMatrix3x2 [
-        [1,3,5],
-        [2,4,6]]);
-    transpose!(RowMatrix3 [
+        [5,6]]);
+    turn!(RowMatrix3 [
         [1,2,3],
         [4,5,6],
         [7,8,9]]
@@ -144,16 +147,16 @@ fn transpose() {
         [1,4,7],
         [2,5,8],
         [3,6,9]]);
-    transpose!(RowMatrix3x4 [
+    turn!(RowMatrix3x4 [
+        [1,4,7,10],
+        [2,5,8,11],
+        [3,6,9,12]]
+        = ColumnMatrix3x4 [
         [1,2,3],
         [4,5,6],
         [7,8,9],
-        [10,11,12]]
-        = ColumnMatrix4x3 [
-        [1,4,7,10],
-        [2,5,8,11],
-        [3,6,9,12]]);
-    transpose!(RowMatrix4 [
+        [10,11,12]]);
+    turn!(RowMatrix4 [
         [1,2,3,4],
         [5,6,7,8],
         [9,10,11,12],
