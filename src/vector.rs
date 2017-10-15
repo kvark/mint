@@ -22,6 +22,20 @@ macro_rules! vec {
                 [$( self.$field.into() ),*]
             }
         }
+
+        impl<T> AsRef<$fixed> for $name<T> {
+            fn as_ref(&self) -> &$fixed { unsafe { ::std::mem::transmute(self) } }
+        }
+
+        impl<T: Clone> $name<T> {
+            pub(crate) fn from_slice(slice: &[T]) -> Self {
+                $name {
+                    $(
+                        $field: slice[$index].clone(),
+                    )*
+                }
+            }
+        }
     }
 }
 

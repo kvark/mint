@@ -33,6 +33,9 @@ impl<T> Into<[T; 4]> for Quaternion<T> {
     }
 }
 
+impl<T> AsRef<[T; 4]> for Quaternion<T> {
+    fn as_ref(&self) -> &[T; 4] { unsafe { ::std::mem::transmute(self) } }
+}
 
 /// Standard quaternion corresponding to a left-handed
 /// rotation matrix. The exact association of the left-handed basis
