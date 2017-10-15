@@ -13,4 +13,7 @@ documentation = "https://docs.rs/mint"
 keywords = ["math"]
 
 [dependencies]
-serde = { version = "1.0.15", optional = true, features = ["derive"] }
+serde = { version = "1.0", optional = true, features = ["derive"] }
+
+[dev-dependencies]
+serde_json = "1.0"

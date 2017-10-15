@@ -13,6 +13,7 @@ extern crate serde;
 mod matrix;
 mod rotation;
 mod vector;
+mod tests;
 
 pub use matrix::*;
 pub use rotation::*;
