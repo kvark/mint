@@ -20,12 +20,20 @@ macro_rules! transitive {
         let a: $fixed = v1.into();
         let v2 = $name::from(a);
         assert_eq!(v1, v2);
-    )
+    );
+
+    ($name:ident [ $($field:ident = $value:expr),* ] = ref $fixed:ty) => (
+        transitive!($name [ $($field = $value),* ] = $fixed);
+        let v1 = $name { $($field : $value,)* };
+        let a: $fixed = v1.into();
+        assert_eq!(AsRef::<$fixed>::as_ref(&v1), &a);
+    );
 }
 
 macro_rules! matrix_transitive {
-    ($name:ident $vecType:ident[ $($field:ident = $value:expr),* ] = $fixed:ty) => (
-        transitive!($name [ $($field = $vecType::from($value)),*] = $fixed);
+    ($name:ident $vecType:ident[ $($field:ident = $value:expr),* ] = ($inner:expr, $outer:expr) : $elt:ty) => (
+        transitive!($name [ $($field = $vecType::from($value)),*] = ref [[$elt; $inner]; $outer]);
+        transitive!($name [ $($field = $vecType::from($value)),*] = ref [$elt; $inner * $outer]);
     )
 }
 
@@ -41,11 +49,11 @@ macro_rules! turn {
 
 #[test]
 fn vector() {
-    transitive!(Vector2 [x=1, y=3] = [i32; 2]);
-    transitive!(Vector3 [x=1, y=3, z=5] = [i32; 3]);
-    transitive!(Vector4 [x=1, y=3, z=5, w=7] = [i32; 4]);
-    transitive!(Point2 [x=1, y=3] = [i32; 2]);
-    transitive!(Point3 [x=1, y=3, z=5] = [i32; 3]);
+    transitive!(Vector2 [x=1, y=3] = ref [i32; 2]);
+    transitive!(Vector3 [x=1, y=3, z=5] = ref [i32; 3]);
+    transitive!(Vector4 [x=1, y=3, z=5, w=7] = ref [i32; 4]);
+    transitive!(Point2 [x=1, y=3] = ref [i32; 2]);
+    transitive!(Point3 [x=1, y=3, z=5] = ref [i32; 3]);
     // Translation Vector <-> Point
     transitive!(Point2 [x=1, y=3] = Vector2<i32>);
     transitive!(Point3 [x=1, y=3, z=5] = Vector3<i32>);
@@ -71,27 +79,27 @@ fn row_matrix() {
     matrix_transitive!(RowMatrix2 Vector2[
         x=[1,2],
         y=[3,4]]
-        = [[i32; 2]; 2]);
+        = (2, 2): i32);
     matrix_transitive!(RowMatrix2x3 Vector3[
         x=[1,2,3],
         y=[4,5,6]]
-        = [[i32; 3]; 2]);
+        = (3, 2): i32);
     matrix_transitive!(RowMatrix3 Vector3[
         x=[1,2,3],
         y=[4,5,6],
         z=[7,8,9]]
-        = [[i32; 3]; 3]);
+        = (3, 3): i32);
     matrix_transitive!(RowMatrix3x4 Vector4[
         x=[1,2,3,4],
         y=[5,6,7,8],
         z=[9,10,11,12]]
-        = [[i32; 4]; 3]);
+        = (4, 3): i32);
     matrix_transitive!(RowMatrix4 Vector4[
         x=[1,2,3,4],
         y=[5,6,7,8],
         z=[9,10,11,12],
         w=[13,14,15,16]]
-        = [[i32; 4]; 4]);
+        = (4, 4): i32);
 }
 
 #[test]
@@ -99,29 +107,29 @@ fn column_matrix() {
     matrix_transitive!(ColumnMatrix2 Vector2[
         x=[1,2],
         y=[3,4]]
-        = [[i32; 2]; 2]);
+        = (2, 2): i32);
     matrix_transitive!(ColumnMatrix2x3 Vector2[
         x=[1,2],
         y=[3,4],
         z=[5,6]]
-        = [[i32; 2]; 3]);
+        = (2, 3): i32);
     matrix_transitive!(ColumnMatrix3 Vector3[
         x=[1,2,3],
         y=[4,5,6],
         z=[7,8,9]]
-        = [[i32; 3]; 3]);
+        = (3, 3): i32);
     matrix_transitive!(ColumnMatrix3x4 Vector3[
         x=[1,2,3],
         y=[4,5,6],
         z=[7,8,9],
         w=[10,11,12]]
-        = [[i32; 3]; 4]);
+        = (3, 4): i32);
     matrix_transitive!(ColumnMatrix4 Vector4[
         x=[1,2,3,4],
         y=[5,6,7,8],
         z=[9,10,11,12],
         w=[13,14,15,16]]
-        = [[i32; 4]; 4]);
+        = (4, 4): i32);
 }
 
 #[test]
