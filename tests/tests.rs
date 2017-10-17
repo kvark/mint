@@ -2,8 +2,8 @@ extern crate mint;
 use mint::{
     Vector2, Point2,
     Vector3, Point3,
-    Vector4, Quaternion,
-    LeftQuaternion, EulerAngles,
+    Vector4,
+    Quaternion, EulerAngles,
 };
 use mint::{
     RowMatrix2, RowMatrix2x3,
@@ -62,11 +62,6 @@ fn vector() {
 #[test]
 fn rotation() {
     transitive!(Quaternion [s=1, v=Vector3{x: 1, y: 3, z: 5}] = [i32; 4]);
-    // LeftQuaternion
-    let a1: [i32; 4] = [1, 3, 5, 7];
-    let q: LeftQuaternion<_, mint::MirrorX> = LeftQuaternion::from(a1);
-    let a2: [i32; 4] = q.into();
-    assert_eq!(a1, a2);
     // EulerAngles
     let a1: [i32; 3] = [1, 3, 5];
     let e: EulerAngles<_, mint::ExtraXYZ> = EulerAngles::from(a1);
