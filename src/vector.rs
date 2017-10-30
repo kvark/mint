@@ -28,7 +28,8 @@ macro_rules! vec {
         }
 
         impl<T: Clone> $name<T> {
-            pub(crate) fn from_slice(slice: &[T]) -> Self {
+            #[allow(missing_docs)]
+            pub fn from_slice(slice: &[T]) -> Self {
                 $name {
                     $(
                         $field: slice[$index].clone(),
