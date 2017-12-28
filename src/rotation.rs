@@ -56,7 +56,7 @@ pub struct EulerAngles<T, B> {
     /// Third angle of rotation in range [-pi, pi] (_roll_).
     pub c: T,
     /// Marker for the phantom basis.
-    marker: PhantomData<B>,
+    pub marker: PhantomData<B>,
 }
 
 /// Intrinsic rotation around X, then Y, then Z axis.
