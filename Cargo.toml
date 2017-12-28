@@ -1,7 +1,11 @@
 [package]
 name = "mint"
 version = "0.5.0"
-authors = ["Dzmitry Malyshau <kvarkus@gmail.com>"]
+authors = [
+	"Dzmitry Malyshau <kvarkus@gmail.com>",
+	"Ilya Bogdanov <fumlead@gmail.com>",
+	"Benjamin Saunders <ben.e.saunders@gmail.com>",
+]
 description = "Math interoperability standard types"
 license = "MIT"
 repository = "https://github.com/kvark/mint"
