@@ -1,3 +1,8 @@
 language: rust
 rust:
   - stable
+script:
+  # don't do `cargo test` because it's incompatible with semver trick
+  # see https://github.com/dtolnay/semver-trick/issues/4
+  - cargo check
+  - cargo doc

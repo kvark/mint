@@ -1,6 +1,6 @@
 [package]
 name = "mint"
-version = "0.4.2"
+version = "0.4.9"
 authors = ["Dzmitry Malyshau <kvarkus@gmail.com>"]
 description = "Math interoperability standard types"
 license = "MIT"
@@ -9,3 +9,4 @@ documentation = "https://docs.rs/mint"
 keywords = ["math"]
 
 [dependencies]
+mint = "0.5"
