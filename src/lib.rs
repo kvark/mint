@@ -6,6 +6,8 @@ Designed to serve as an interoperability standard between libraries.
 */
 #![deny(missing_docs)]
 
+extern crate mint as future_self;
+
 mod matrix;
 mod rotation;
 mod vector;
