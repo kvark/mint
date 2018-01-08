@@ -54,7 +54,7 @@ macro_rules! vec {
 
         #[cfg(feature = "serde")]
         impl<'de, T> ::serde::Deserialize<'de> for $name<T>
-            where T: ::serde::Deserialize<'de>
+            where T: ::serde::Deserialize<'de>,
         {
             fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
                 where D: ::serde::Deserializer<'de>
