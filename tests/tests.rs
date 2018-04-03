@@ -7,11 +7,13 @@ use mint::{
 };
 use mint::{
     RowMatrix2, RowMatrix2x3,
-    RowMatrix3, RowMatrix3x4, RowMatrix4,
+    RowMatrix3x2, RowMatrix3, RowMatrix3x4,
+    RowMatrix4x3, RowMatrix4,
 };
 use mint::{
     ColumnMatrix2, ColumnMatrix2x3,
-    ColumnMatrix3, ColumnMatrix3x4, ColumnMatrix4,
+    ColumnMatrix3x2, ColumnMatrix3, ColumnMatrix3x4,
+    ColumnMatrix4x3, ColumnMatrix4,
 };
 
 macro_rules! transitive {
@@ -142,6 +144,13 @@ fn turn() {
         [1,2],
         [3,4],
         [5,6]]);
+    turn!(RowMatrix3x2 [
+        [1,2],
+        [3,4],
+        [5,6]]
+        = ColumnMatrix3x2 [
+        [1,3,5],
+        [2,4,6]]);
     turn!(RowMatrix3 [
         [1,2,3],
         [4,5,6],
@@ -159,6 +168,15 @@ fn turn() {
         [4,5,6],
         [7,8,9],
         [10,11,12]]);
+    turn!(RowMatrix4x3 [
+        [1,2,3],
+        [4,5,6],
+        [7,8,9],
+        [10,11,12]]
+        = ColumnMatrix4x3 [
+        [1,4,7,10],
+        [2,5,8,11],
+        [3,6,9,12]]);
     turn!(RowMatrix4 [
         [1,2,3,4],
         [5,6,7,8],
