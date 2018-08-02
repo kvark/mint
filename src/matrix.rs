@@ -57,6 +57,48 @@ macro_rules! matrix {
         impl<T> AsRef<[T; $inner * $outer]> for $name<T> {
             fn as_ref(&self) -> &[T; $inner * $outer] { unsafe { mem::transmute(self) } }
         }
+
+        #[cfg(feature = "serde")]
+        impl<T> ::serde::Serialize for $name<T>
+            where $vec<T>: ::serde::Serialize
+        {
+            fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+                where S: ::serde::Serializer
+            {
+                use ::serde::ser::SerializeSeq;
+                let mut seq = serializer.serialize_seq(Some($outer))?;
+                $( seq.serialize_element(&self.$field)?; )*
+                seq.end()
+            }
+        }
+
+        #[cfg(feature = "serde")]
+        impl<'de, T> ::serde::Deserialize<'de> for $name<T>
+            where T: ::serde::Deserialize<'de>
+        {
+            fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+                where D: ::serde::Deserializer<'de>
+            {
+                struct GenericVisitor<T>(::std::marker::PhantomData<T>);
+                impl<'de, T> ::serde::de::Visitor<'de> for GenericVisitor<T>
+                    where T: ::serde::de::Deserialize<'de>
+                {
+                    type Value = $name<T>;
+                    fn expecting(&self, formatter: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+                        write!(formatter, "struct {} or {}", stringify!($name), stringify!([[T; $inner]; $outer]))
+                    }
+                    fn visit_seq<A>(self, mut access: A) -> Result<Self::Value, A::Error>
+                        where A: ::serde::de::SeqAccess<'de>
+                    {
+                        Ok($name {
+                            $( $field: access.next_element::<$vec<T>>()?.unwrap() ),*
+                        })
+                    }
+                }
+
+                deserializer.deserialize_seq(GenericVisitor::<T>(::std::marker::PhantomData))
+            }
+        }
     };
 }
 

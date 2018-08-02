@@ -6,6 +6,7 @@ use vector::Vector3;
 /// Useful for representing rotation in 3D space.
 /// Corresponds to a right-handed rotation matrix.
 #[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[repr(C)]
 pub struct Quaternion<T> {
     /// Scalar part of a quaternion.
@@ -37,7 +38,6 @@ impl<T> AsRef<[T; 4]> for Quaternion<T> {
     fn as_ref(&self) -> &[T; 4] { unsafe { ::std::mem::transmute(self) } }
 }
 
-
 /// Abstract set of Euler angles in 3D space. The basis of angles
 /// is defined by the generic parameter `B`.
 ///
@@ -47,6 +47,7 @@ impl<T> AsRef<[T; 4]> for Quaternion<T> {
 ///   - extrinsic (also known as "Proper Euler angles"): rotate around world axis
 /// For each interpretation, different axis may be chosen in different order.
 #[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[repr(C)]
 pub struct EulerAngles<T, B> {
     /// First angle of rotation in range [-pi, pi] (_pitch_).
