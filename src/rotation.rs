@@ -1,5 +1,5 @@
 use std::marker::PhantomData;
-use vector::Vector3;
+use vector::{Bivector, Vector3};
 
 
 /// Standard quaternion represented by the scalar and vector parts.
@@ -34,6 +34,42 @@ impl<T> Into<[T; 4]> for Quaternion<T> {
 }
 
 impl<T> AsRef<[T; 4]> for Quaternion<T> {
+    fn as_ref(&self) -> &[T; 4] { unsafe { ::std::mem::transmute(self) } }
+}
+
+
+/// A rotor in 3D space represented by a scalar and bi-vector parts.
+/// Similar to Quaternion, can equally (isomorphically) represent
+/// rotations in 3D space.
+#[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
+#[repr(C)]
+pub struct Rotor<T> {
+    /// Scalar part of a rotor.
+    pub s: T,
+    /// Vector part of a rotor.
+    pub b: Bivector<T>,
+}
+
+impl<T: Clone> From<[T; 4]> for Rotor<T> {
+    fn from(v: [T; 4]) -> Self {
+        Rotor {
+            s: v[0].clone(),
+            b: Bivector {
+                xy: v[1].clone(),
+                xz: v[2].clone(),
+                yz: v[3].clone(),
+            },
+        }
+    }
+}
+
+impl<T> Into<[T; 4]> for Rotor<T> {
+    fn into(self) -> [T; 4] {
+        [self.s, self.b.xy, self.b.xz, self.b.yz]
+    }
+}
+
+impl<T> AsRef<[T; 4]> for Rotor<T> {
     fn as_ref(&self) -> &[T; 4] { unsafe { ::std::mem::transmute(self) } }
 }
 

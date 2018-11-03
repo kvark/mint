@@ -63,3 +63,4 @@ vec!( Point2 [x=0, y=1] = [T; 2] );
 from!( Point2 [x,y] = Vector2 );
 vec!( Point3 [x=0, y=1, z=2] = [T; 3] );
 from!( Point3 [x,y,z] = Vector3 );
+vec!( Bivector [xy=0, xz=1, yz=2] = [T; 3] );
