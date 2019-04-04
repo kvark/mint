@@ -1,7 +1,6 @@
 use std::marker::PhantomData;
 use vector::Vector3;
 
-
 /// Standard quaternion represented by the scalar and vector parts.
 /// Useful for representing rotation in 3D space.
 /// Corresponds to a right-handed rotation matrix.

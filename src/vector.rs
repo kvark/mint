@@ -1,12 +1,5 @@
-macro_rules! vec {
-    ($name:ident [ $($field:ident = $index:expr),* ] = $fixed:ty) => {
-        #[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
-        #[repr(C)]
-        #[allow(missing_docs)] //TODO: actually have docs
-        pub struct $name<T> {
-            $( pub $field : T, )*
-        }
-
+macro_rules! vec_methods {
+    (doc($sname:expr) $name:ident ($dim:expr) [ $($field:ident = $index:expr),* ] = $fixed:ty) => {
         impl<T> From<$fixed> for $name<T> {
             fn from([$($field),*]: $fixed) -> Self {
                 $name {
@@ -28,7 +21,15 @@ macro_rules! vec {
         }
 
         impl<T: Clone> $name<T> {
-            #[allow(missing_docs)]
+            #[doc = "Constructs a `"]
+            #[doc = $sname]
+            #[doc = "` from the first "]
+            #[doc = $dim]
+            #[doc = " elements of `slice`.\n"]
+            #[doc = "# Panics\n"]
+            #[doc = "This method will panic if `slice.len()` is smaller than "]
+            #[doc = $dim]
+            #[doc = "."]
             pub fn from_slice(slice: &[T]) -> Self {
                 $name {
                     $(
@@ -37,6 +38,48 @@ macro_rules! vec {
                 }
             }
         }
+    }
+}
+
+macro_rules! decl_vector_type {
+    (
+        $(#[$attr:meta])*
+        $v:vis struct $name:ident<$generic:ident> {
+            $(
+                $(#[doc = $doc:expr])*
+                $fvis:vis $field:ident : $field_ty:ident
+            ),*
+        }
+    ) => {
+        $(#[$attr])*
+        $v struct $name<$generic> {
+            $(
+                $(#[doc = $doc])*
+                $fvis $field: $field_ty
+            ),*
+        }
+    };
+}
+
+macro_rules! vec {
+    (
+        $(#[doc = $doc:expr])*
+        $name:ident ($dim:expr) [ $($field:ident = $index:expr),* ] = $fixed:ty
+    ) => {
+        decl_vector_type! {
+            $(#[doc = $doc])*
+            #[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
+            #[repr(C)]
+            pub struct $name<T> {
+                $(
+                    #[doc = concat!(
+                        "The ", stringify!($field), " component of the `", stringify!($name), "`."
+                    )]
+                    pub $field: T
+                ),*
+            }
+        }
+        vec_methods!(doc(stringify!($name)) $name (stringify!($dim)) [ $($field = $index),* ] = $fixed);
     }
 }
 
@@ -54,12 +97,27 @@ macro_rules! from {
     }
 }
 
-vec!( Vector2 [x=0, y=1] = [T; 2] );
+vec!(
+    #[doc = "A vector representing direction and magnitude in 2D space."]
+    Vector2 (2) [x=0, y=1] = [T; 2]
+);
 from!( Vector2 [x,y] = Point2 );
-vec!( Vector3 [x=0, y=1, z=2] = [T; 3] );
+vec!(
+    #[doc = "A vector representing direction and magnitude in 3D space."]
+    Vector3 (3) [x=0, y=1, z=2] = [T; 3]
+);
 from!( Vector3 [x,y,z] = Point3 );
-vec!( Vector4 [x=0, y=1, z=2, w=3] = [T; 4] );
-vec!( Point2 [x=0, y=1] = [T; 2] );
+vec!(
+    #[doc = "A vector representing direction and magnitude in 4D space."]
+    Vector4 (4) [x=0, y=1, z=2, w=3] = [T; 4]
+);
+vec!(
+    #[doc = "A point representing a position in 2D space."]
+    Point2 (2) [x=0, y=1] = [T; 2]
+);
 from!( Point2 [x,y] = Vector2 );
-vec!( Point3 [x=0, y=1, z=2] = [T; 3] );
+vec!(
+    #[doc = "A point representing a position in 3D space."]
+    Point3 (3) [x=0, y=1, z=2] = [T; 3]
+);
 from!( Point3 [x,y,z] = Vector3 );
