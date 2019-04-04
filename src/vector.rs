@@ -7,11 +7,11 @@ macro_rules! vec {
             $( pub $field : T, )*
         }
 
-        impl<T: Clone> From<$fixed> for $name<T> {
-            fn from(v: $fixed) -> Self {
+        impl<T> From<$fixed> for $name<T> {
+            fn from([$($field),*]: $fixed) -> Self {
                 $name {
                     $(
-                        $field: v[$index].clone(),
+                        $field,
                     )*
                 }
             }

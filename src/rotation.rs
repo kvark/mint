@@ -14,15 +14,11 @@ pub struct Quaternion<T> {
     pub v: Vector3<T>,
 }
 
-impl<T: Clone> From<[T; 4]> for Quaternion<T> {
-    fn from(v: [T; 4]) -> Self {
+impl<T> From<[T; 4]> for Quaternion<T> {
+    fn from([x, y, z, s]: [T; 4]) -> Self {
         Quaternion {
-            s: v[3].clone(),
-            v: Vector3 {
-                x: v[0].clone(),
-                y: v[1].clone(),
-                z: v[2].clone(),
-            },
+            s,
+            v: Vector3::from([x, y, z]),
         }
     }
 }
@@ -78,12 +74,12 @@ pub enum ExtraZXZ {}
 #[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 pub enum ExtraZYX {}
 
-impl<T: Clone, B> From<[T; 3]> for EulerAngles<T, B> {
-    fn from(v: [T; 3]) -> Self {
+impl<T, B> From<[T; 3]> for EulerAngles<T, B> {
+    fn from([a, b, c]: [T; 3]) -> Self {
         EulerAngles {
-            a: v[0].clone(),
-            b: v[1].clone(),
-            c: v[2].clone(),
+            a,
+            b,
+            c,
             marker: PhantomData,
         }
     }
