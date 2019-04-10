@@ -188,3 +188,15 @@ fn turn() {
         [3,7,11,15],
         [4,8,12,16]]);
 }
+
+#[test]
+fn vector_from_slice_success() {
+    let v = Vector3::from_slice(&[0.0f32, 1.0, 2.0, 3.0]);
+    assert_eq!(v, Vector3 { x: 0.0, y: 1.0, z: 2.0} );
+}
+
+#[test]
+#[should_panic(expected = "Missing y-axis in slice.")]
+fn vector_from_slice_fail() {
+    let _ = Vector4::from_slice(&[0.0]);
+}
