@@ -91,6 +91,17 @@ impl<T, B> Into<[T; 3]> for EulerAngles<T, B> {
     }
 }
 
+impl<T: Default, B> Default for EulerAngles<T, B> {
+    fn default() -> Self {
+        EulerAngles {
+            a: T::default(),
+            b: T::default(),
+            c: T::default(),
+            marker: PhantomData,
+        }
+    }
+}
+
 macro_rules! reverse {
     ($from:ident -> $to:ident) => {
         impl<T> From<EulerAngles<T, $from>> for EulerAngles<T, $to> {

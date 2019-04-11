@@ -1,6 +1,6 @@
 macro_rules! vec {
     ($name:ident [ $($field:ident = $index:expr),* ] = $fixed:ty) => {
-        #[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
+        #[derive(Clone, Copy, Debug, Default, Hash, PartialEq, PartialOrd, Eq, Ord)]
         #[repr(C)]
         #[allow(missing_docs)] //TODO: actually have docs
         pub struct $name<T> {
