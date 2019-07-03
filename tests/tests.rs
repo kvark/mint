@@ -1,9 +1,10 @@
 extern crate mint;
 use mint::{
+    Bivector,
     Vector2, Point2,
     Vector3, Point3,
     Vector4,
-    Quaternion, EulerAngles,
+    Quaternion, Rotor, EulerAngles,
 };
 use mint::{
     RowMatrix2, RowMatrix2x3,
@@ -56,6 +57,7 @@ fn vector() {
     transitive!(Vector4 [x=1, y=3, z=5, w=7] = ref [i32; 4]);
     transitive!(Point2 [x=1, y=3] = ref [i32; 2]);
     transitive!(Point3 [x=1, y=3, z=5] = ref [i32; 3]);
+    transitive!(Bivector [xy=2, xz=3, yz=5] = ref [u32; 3]);
     // Translation Vector <-> Point
     transitive!(Point2 [x=1, y=3] = Vector2<i32>);
     transitive!(Point3 [x=1, y=3, z=5] = Vector3<i32>);
@@ -64,6 +66,7 @@ fn vector() {
 #[test]
 fn rotation() {
     transitive!(Quaternion [s=1, v=Vector3{x: 1, y: 3, z: 5}] = [i32; 4]);
+    transitive!(Rotor [s=2, b=Bivector{xy: 2, xz: 4, yz: 6}] = [u32; 4]);
     // EulerAngles
     let a1: [i32; 3] = [1, 3, 5];
     let e: EulerAngles<_, mint::ExtraXYZ> = EulerAngles::from(a1);

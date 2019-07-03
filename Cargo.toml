@@ -1,6 +1,6 @@
 [package]
 name = "mint"
-version = "0.5.1"
+version = "0.5.2"
 authors = [
 	"Dzmitry Malyshau <kvarkus@gmail.com>",
 	"Ilya Bogdanov <fumlead@gmail.com>",
