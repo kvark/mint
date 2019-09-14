@@ -80,6 +80,9 @@ turn!( RowMatrix2 : Vector2[x[x,y],y[x,y]] = ColumnMatrix2 );
 /// Useful for combining rotation, scale, and translation in 2D space.
 matrix!( RowMatrix2x3 : Vector3[x[x,y,z]=0,y[x,y,z]=1] = (3, 2));
 turn!( RowMatrix2x3 : Vector3[x[x,y,z],y[x,y,z]] = ColumnMatrix2x3 );
+/// 2x4 row-major matrix.
+matrix!( RowMatrix2x4 : Vector4[x[x,y,z,w]=0,y[x,y,z,w]=1] = (4, 2));
+turn!( RowMatrix2x4 : Vector4[x[x,y,z,w],y[x,y,z,w]] = ColumnMatrix2x4 );
 /// 3x2 row-major matrix.
 /// Useful for combining rotation, scale, and translation in 2D space.
 matrix!( RowMatrix3x2 : Vector2[x[x,y]=0,y[x,y]=1,z[x,y]=2] = (2, 3));
@@ -96,6 +99,9 @@ turn!( RowMatrix3x4 : Vector4[x[x,y,z,w],y[x,y,z,w],z[x,y,z,w]] = ColumnMatrix3x
 /// Useful for combining rotation, scale, and translation in 3D space.
 matrix!( RowMatrix4x3 : Vector3[x[x,y,z]=0,y[x,y,z]=1,z[x,y,z]=2,w[x,y,z]=3] = (3, 4));
 turn!( RowMatrix4x3 : Vector3[x[x,y,z],y[x,y,z],z[x,y,z],w[x,y,z]] = ColumnMatrix4x3 );
+// 4x2 row-major matrix.
+matrix!( RowMatrix4x2 : Vector2[x[x,y]=0,y[x,y]=1,z[x,y]=2,w[x,y]=3] = (2, 4));
+turn!( RowMatrix4x2 : Vector2[x[x,y],y[x,y],z[x,y],w[x,y]] = ColumnMatrix4x2 );
 /// 4x4 row-major matrix.
 matrix!( RowMatrix4 : Vector4[x[x,y,z,w]=0,y[x,y,z,w]=1,z[x,y,z,w]=2,w[x,y,z,w]=3] = (4, 4));
 turn!( RowMatrix4 : Vector4[x[x,y,z,w],y[x,y,z,w],z[x,y,z,w],w[x,y,z,w]] = ColumnMatrix4 );
@@ -107,6 +113,9 @@ turn!( ColumnMatrix2 : Vector2[x[x,y],y[x,y]] = RowMatrix2 );
 /// Useful for combining rotation, scale, and translation in 2D space.
 matrix!( ColumnMatrix2x3 : Vector2[x[x,y]=0,y[x,y]=1,z[x,y]=2] = (2, 3));
 turn!( ColumnMatrix2x3 : Vector2[x[x,y],y[x,y],z[x,y]] = RowMatrix2x3 );
+// 2x4 column-major matrix.
+matrix!( ColumnMatrix2x4 : Vector2[x[x,y]=0,y[x,y]=1,z[x,y]=2,w[x,y]=3] = (2, 4));
+turn!( ColumnMatrix2x4 : Vector2[x[x,y],y[x,y],z[x,y],w[x,y]] = RowMatrix2x4 );
 /// 3x2 column-major matrix.
 /// Useful for combining rotation, scale, and translation in 2D space.
 matrix!( ColumnMatrix3x2 : Vector3[x[x,y,z]=0,y[x,y,z]=1] = (3, 2));
@@ -119,6 +128,9 @@ turn!( ColumnMatrix3 : Vector3[x[x,y,z],y[x,y,z],z[x,y,z]] = RowMatrix3 );
 /// Useful for combining rotation, scale, and translation in 3D space.
 matrix!( ColumnMatrix3x4 : Vector3[x[x,y,z]=0,y[x,y,z]=1,z[x,y,z]=2,w[x,y,z]=3] = (3, 4));
 turn!( ColumnMatrix3x4 : Vector3[x[x,y,z],y[x,y,z],z[x,y,z],w[x,y,z]] = RowMatrix3x4 );
+/// 4x2 column-major matrix.
+matrix!( ColumnMatrix4x2 : Vector4[x[x,y,z,w]=0,y[x,y,z,w]=1] = (4, 2));
+turn!( ColumnMatrix4x2 : Vector4[x[x,y,z,w],y[x,y,z,w]] = RowMatrix4x2 );
 /// 4x3 column-major matrix.
 /// Useful for combining rotation, scale, and translation in 3D space.
 matrix!( ColumnMatrix4x3 : Vector4[x[x,y,z,w]=0,y[x,y,z,w]=1,z[x,y,z,w]=2] = (4, 3));
