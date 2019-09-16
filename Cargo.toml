@@ -1,10 +1,12 @@
 [package]
 name = "mint"
-version = "0.5.1"
+version = "0.5.2"
 authors = [
-	"Dzmitry Malyshau <kvarkus@gmail.com>",
-	"Ilya Bogdanov <fumlead@gmail.com>",
 	"Benjamin Saunders <ben.e.saunders@gmail.com>",
+	"Dzmitry Malyshau <kvarkus@gmail.com>",
+	"George Burton <burtonageo@gmail.com>",
+	"Ilya Bogdanov <fumlead@gmail.com>",
+	"Osspial <osspial@gmail.com>",
 ]
 description = "Math interoperability standard types"
 license = "MIT"
