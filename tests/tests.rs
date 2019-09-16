@@ -6,14 +6,14 @@ use mint::{
     Quaternion, EulerAngles,
 };
 use mint::{
-    RowMatrix2, RowMatrix2x3,
+    RowMatrix2, RowMatrix2x3, RowMatrix2x4,
     RowMatrix3x2, RowMatrix3, RowMatrix3x4,
-    RowMatrix4x3, RowMatrix4,
+    RowMatrix4x2, RowMatrix4x3, RowMatrix4,
 };
 use mint::{
-    ColumnMatrix2, ColumnMatrix2x3,
+    ColumnMatrix2, ColumnMatrix2x3, ColumnMatrix2x4,
     ColumnMatrix3x2, ColumnMatrix3, ColumnMatrix3x4,
-    ColumnMatrix4x3, ColumnMatrix4,
+    ColumnMatrix4x2, ColumnMatrix4x3, ColumnMatrix4,
 };
 
 macro_rules! transitive {
@@ -81,6 +81,15 @@ fn row_matrix() {
         x=[1,2,3],
         y=[4,5,6]]
         = (3, 2): i32);
+    matrix_transitive!(RowMatrix2x4 Vector4[
+        x=[1,2,3,4],
+        y=[5,6,7,8]]
+        = (4, 2): i32);
+    matrix_transitive!(RowMatrix3x2 Vector2[
+        x=[1,2],
+        y=[3,4],
+        z=[5,6]]
+        = (2, 3): i32);
     matrix_transitive!(RowMatrix3 Vector3[
         x=[1,2,3],
         y=[4,5,6],
@@ -91,6 +100,18 @@ fn row_matrix() {
         y=[5,6,7,8],
         z=[9,10,11,12]]
         = (4, 3): i32);
+    matrix_transitive!(RowMatrix4x2 Vector2[
+        x=[1,2],
+        y=[3,4],
+        z=[5,6],
+        w=[7,8]]
+        = (2, 4): i32);
+    matrix_transitive!(RowMatrix4x3 Vector3[
+        x=[1,2,3],
+        y=[4,5,6],
+        z=[7,8,9],
+        w=[10,11,12]]
+        = (3, 4): i32);
     matrix_transitive!(RowMatrix4 Vector4[
         x=[1,2,3,4],
         y=[5,6,7,8],
@@ -110,6 +131,16 @@ fn column_matrix() {
         y=[3,4],
         z=[5,6]]
         = (2, 3): i32);
+    matrix_transitive!(ColumnMatrix2x4 Vector2[
+        x=[1,2],
+        y=[3,4],
+        z=[5,6],
+        w=[7,8]]
+        = (2, 4): i32);
+    matrix_transitive!(ColumnMatrix3x2 Vector3[
+        x=[1,2,3],
+        y=[4,5,6]]
+        = (3, 2): i32);
     matrix_transitive!(ColumnMatrix3 Vector3[
         x=[1,2,3],
         y=[4,5,6],
@@ -121,6 +152,15 @@ fn column_matrix() {
         z=[7,8,9],
         w=[10,11,12]]
         = (3, 4): i32);
+    matrix_transitive!(ColumnMatrix4x2 Vector4[
+        x=[1,2,3,4],
+        y=[5,6,7,8]]
+        = (4, 2): i32);
+    matrix_transitive!(ColumnMatrix4x3 Vector4[
+        x=[1,2,3,4],
+        y=[5,6,7,8],
+        z=[9,10,11,12]]
+        = (4, 3): i32);
     matrix_transitive!(ColumnMatrix4 Vector4[
         x=[1,2,3,4],
         y=[5,6,7,8],
@@ -144,6 +184,14 @@ fn turn() {
         [1,2],
         [3,4],
         [5,6]]);
+    turn!(RowMatrix2x4 [
+        [1,3,5,7],
+        [2,4,6,8]]
+        = ColumnMatrix2x4 [
+        [1,2],
+        [3,4],
+        [5,6],
+        [7,8]]);
     turn!(RowMatrix3x2 [
         [1,2],
         [3,4],
@@ -168,6 +216,14 @@ fn turn() {
         [4,5,6],
         [7,8,9],
         [10,11,12]]);
+    turn!(RowMatrix4x2 [
+        [1,2],
+        [3,4],
+        [5,6],
+        [7,8]]
+        = ColumnMatrix4x2 [
+        [1,3,5,7],
+        [2,4,6,8]]);
     turn!(RowMatrix4x3 [
         [1,2,3],
         [4,5,6],
