@@ -13,3 +13,13 @@ mod vector;
 pub use matrix::*;
 pub use rotation::*;
 pub use vector::*;
+
+/// Conversion directly between types that implement `From` for the same `mint` type.
+pub trait Convert: Sized {
+    /// The corresponding `mint` type
+    type Via: From<Self>;
+    /// Convert into an equivalent type
+    fn convert<T: From<Self::Via>>(self) -> T {
+        T::from(Self::Via::from(self))
+    }
+}
