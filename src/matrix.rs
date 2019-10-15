@@ -52,6 +52,23 @@ macro_rules! matrix {
         impl<T> AsRef<[T; $inner * $outer]> for $name<T> {
             fn as_ref(&self) -> &[T; $inner * $outer] { unsafe { mem::transmute(self) } }
         }
+
+        impl<T> $name<T> {
+            /// Applies `f` to each element of the matrix
+            pub fn map<U, F>(self, f: F) -> $name<U>
+            where F: Fn(T) -> U,
+            {
+                $name {
+                    $(
+                        $field: $vec {
+                            $(
+                                $sub: f(self.$field.$sub)
+                            ),*
+                        }
+                    ),*
+                }
+            }
+        }
     };
 }
 

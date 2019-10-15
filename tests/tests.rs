@@ -49,6 +49,26 @@ macro_rules! turn {
     )
 }
 
+macro_rules! map {
+    ($name:ident [ $($field:ident = $value:expr),* ]) => (
+        let v1 = $name { $($field : $value,)* };
+        let v2 = v1.map(|x| x * 2);
+
+        $(
+            assert_eq!(v2.$field, v1.$field * 2);
+        );*
+    );
+
+    ($name:ident $fieldType:ident[ $($field:ident = $value:expr),* ]) => (
+        let v1 = $name { $($field : $fieldType::from($value),)* };
+        let v2 = v1.map(|x| x * 2);
+
+        $(
+            assert_eq!(v2.$field, v1.$field.map(|x| x * 2));
+        );*
+    );
+}
+
 #[test]
 fn vector() {
     transitive!(Vector2 [x=1, y=3] = ref [i32; 2]);
@@ -59,6 +79,11 @@ fn vector() {
     // Translation Vector <-> Point
     transitive!(Point2 [x=1, y=3] = Vector2<i32>);
     transitive!(Point3 [x=1, y=3, z=5] = Vector3<i32>);
+    map!(Vector2 [x=1, y=3]);
+    map!(Vector3 [x=1, y=3, z=5]);
+    map!(Vector4 [x=1, y=3, z=5, w=7]);
+    map!(Point2 [x=1, y=3]);
+    map!(Point3 [x=1, y=3, z=5]);
 }
 
 #[test]
@@ -118,6 +143,43 @@ fn row_matrix() {
         z=[9,10,11,12],
         w=[13,14,15,16]]
         = (4, 4): i32);
+
+    map!(RowMatrix2 Vector2[
+        x=[1,2],
+        y=[3,4]]);
+    map!(RowMatrix2x3 Vector3[
+        x=[1,2,3],
+        y=[4,5,6]]);
+    map!(RowMatrix2x4 Vector4[
+        x=[1,2,3,4],
+        y=[5,6,7,8]]);
+    map!(RowMatrix3x2 Vector2[
+        x=[1,2],
+        y=[3,4],
+        z=[5,6]]);
+    map!(RowMatrix3 Vector3[
+        x=[1,2,3],
+        y=[4,5,6],
+        z=[7,8,9]]);
+    map!(RowMatrix3x4 Vector4[
+        x=[1,2,3,4],
+        y=[5,6,7,8],
+        z=[9,10,11,12]]);
+    map!(RowMatrix4x2 Vector2[
+        x=[1,2],
+        y=[3,4],
+        z=[5,6],
+        w=[7,8]]);
+    map!(RowMatrix4x3 Vector3[
+        x=[1,2,3],
+        y=[4,5,6],
+        z=[7,8,9],
+        w=[10,11,12]]);
+    map!(RowMatrix4 Vector4[
+        x=[1,2,3,4],
+        y=[5,6,7,8],
+        z=[9,10,11,12],
+        w=[13,14,15,16]]);
 }
 
 #[test]
@@ -167,6 +229,43 @@ fn column_matrix() {
         z=[9,10,11,12],
         w=[13,14,15,16]]
         = (4, 4): i32);
+
+    map!(ColumnMatrix2 Vector2[
+        x=[1,2],
+        y=[3,4]]);
+    map!(ColumnMatrix2x3 Vector2[
+        x=[1,2],
+        y=[3,4],
+        z=[5,6]]);
+    map!(ColumnMatrix2x4 Vector2[
+        x=[1,2],
+        y=[3,4],
+        z=[5,6],
+        w=[7,8]]);
+    map!(ColumnMatrix3x2 Vector3[
+        x=[1,2,3],
+        y=[4,5,6]]);
+    map!(ColumnMatrix3 Vector3[
+        x=[1,2,3],
+        y=[4,5,6],
+        z=[7,8,9]]);
+    map!(ColumnMatrix3x4 Vector3[
+        x=[1,2,3],
+        y=[4,5,6],
+        z=[7,8,9],
+        w=[10,11,12]]);
+    map!(ColumnMatrix4x2 Vector4[
+        x=[1,2,3,4],
+        y=[5,6,7,8]]);
+    map!(ColumnMatrix4x3 Vector4[
+        x=[1,2,3,4],
+        y=[5,6,7,8],
+        z=[9,10,11,12]]);
+    map!(ColumnMatrix4 Vector4[
+        x=[1,2,3,4],
+        y=[5,6,7,8],
+        z=[9,10,11,12],
+        w=[13,14,15,16]]);
 }
 
 #[test]

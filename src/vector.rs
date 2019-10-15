@@ -41,6 +41,19 @@ macro_rules! vec {
                 }
             }
         }
+
+        impl<T> $name<T> {
+            /// Applies `f` to each element of the vector
+            pub fn map<U, F>(self, f: F) -> $name<U>
+            where F: Fn(T) -> U,
+            {
+                $name {
+                    $(
+                        $field: f(self.$field)
+                    ),*
+                }
+            }
+        }
     }
 }
 

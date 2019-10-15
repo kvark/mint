@@ -33,6 +33,22 @@ impl<T> AsRef<[T; 4]> for Quaternion<T> {
     fn as_ref(&self) -> &[T; 4] { unsafe { ::std::mem::transmute(self) } }
 }
 
+impl<T> Quaternion<T> {
+    /// Applies `f` to each element of the quaternion
+    pub fn map<U, F>(self, f: F) -> Quaternion<U>
+    where F: Fn(T) -> U,
+    {
+        Quaternion {
+            s: f(self.s),
+            v: Vector3 {
+                x: f(self.v.x),
+                y: f(self.v.y),
+                z: f(self.v.z),
+            },
+        }
+    }
+}
+
 
 /// Abstract set of Euler angles in 3D space. The basis of angles
 /// is defined by the generic parameter `B`.
@@ -88,6 +104,20 @@ impl<T, B> From<[T; 3]> for EulerAngles<T, B> {
 impl<T, B> Into<[T; 3]> for EulerAngles<T, B> {
     fn into(self) -> [T; 3] {
         [self.a, self.b, self.c]
+    }
+}
+
+impl<T, B> EulerAngles<T, B> {
+    /// Applies `f` to each element of the Euler angles
+    pub fn map<U, F>(self, f: F) -> EulerAngles<U, B>
+    where F: Fn(T) -> U,
+    {
+        EulerAngles {
+            a: f(self.a),
+            b: f(self.b),
+            c: f(self.c),
+            marker: self.marker,
+        }
     }
 }
 
