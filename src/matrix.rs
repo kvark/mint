@@ -1,5 +1,4 @@
 use vector::{Vector2, Vector3, Vector4};
-use std::mem;
 
 macro_rules! matrix {
     ($name:ident : $vec:ident[ $($field:ident[$($sub:ident),*] = $index:expr),* ] = ($inner:expr, $outer:expr)) => {
@@ -27,7 +26,7 @@ macro_rules! matrix {
         }
 
         impl<T> AsRef<[[T; $inner]; $outer]> for $name<T> {
-            fn as_ref(&self) -> &[[T; $inner]; $outer] { unsafe { mem::transmute(self) } }
+            fn as_ref(&self) -> &[[T; $inner]; $outer] { unsafe { ::core::mem::transmute(self) } }
         }
 
         impl<T: Clone> From<[T; $inner * $outer]> for $name<T> {
@@ -50,7 +49,7 @@ macro_rules! matrix {
         }
 
         impl<T> AsRef<[T; $inner * $outer]> for $name<T> {
-            fn as_ref(&self) -> &[T; $inner * $outer] { unsafe { mem::transmute(self) } }
+            fn as_ref(&self) -> &[T; $inner * $outer] { unsafe { ::core::mem::transmute(self) } }
         }
     };
 }

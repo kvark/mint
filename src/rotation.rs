@@ -1,4 +1,4 @@
-use std::marker::PhantomData;
+use core::marker::PhantomData;
 use vector::Vector3;
 
 
@@ -30,7 +30,7 @@ impl<T> Into<[T; 4]> for Quaternion<T> {
 }
 
 impl<T> AsRef<[T; 4]> for Quaternion<T> {
-    fn as_ref(&self) -> &[T; 4] { unsafe { ::std::mem::transmute(self) } }
+    fn as_ref(&self) -> &[T; 4] { unsafe { ::core::mem::transmute(self) } }
 }
 
 

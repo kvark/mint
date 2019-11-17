@@ -24,7 +24,7 @@ macro_rules! vec {
         }
 
         impl<T> AsRef<$fixed> for $name<T> {
-            fn as_ref(&self) -> &$fixed { unsafe { ::std::mem::transmute(self) } }
+            fn as_ref(&self) -> &$fixed { unsafe { ::core::mem::transmute(self) } }
         }
 
         impl<T: Clone> $name<T> {
