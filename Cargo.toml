@@ -1,9 +1,10 @@
 [package]
 name = "mint"
-version = "0.5.3"
+version = "0.5.4"
 authors = [
 	"Benjamin Saunders <ben.e.saunders@gmail.com>",
 	"Dzmitry Malyshau <kvarkus@gmail.com>",
+	"Evgenii P. <eupn@protonmail.com>",
 	"George Burton <burtonageo@gmail.com>",
 	"Ilya Bogdanov <fumlead@gmail.com>",
 	"Osspial <osspial@gmail.com>",
