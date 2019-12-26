@@ -8,10 +8,10 @@ use vector::Vector3;
 #[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 #[repr(C)]
 pub struct Quaternion<T> {
-    /// Scalar part of a quaternion.
-    pub s: T,
     /// Vector part of a quaternion.
     pub v: Vector3<T>,
+    /// Scalar part of a quaternion.
+    pub s: T,
 }
 
 impl<T> From<[T; 4]> for Quaternion<T> {
