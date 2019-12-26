@@ -256,3 +256,21 @@ fn vector_from_slice_success() {
 fn vector_from_slice_fail() {
     let _ = Vector4::from_slice(&[0.0]);
 }
+
+#[test]
+fn quaternion_layout() {
+    let q = Quaternion {
+        v: Vector3::from([0, 1, 2]),
+        s: 3,
+    };
+    let expected = [0, 1, 2, 3];
+
+    let a: [i32; 4] = q.into();
+    assert_eq!(a, expected);
+
+    let b: &[i32; 4] = q.as_ref();
+    assert_eq!(b, &expected);
+
+    let c: [i32; 4] = unsafe { core::mem::transmute(q) };
+    assert_eq!(c, expected);
+}
