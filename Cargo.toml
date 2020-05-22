@@ -16,3 +16,4 @@ documentation = "https://docs.rs/mint"
 keywords = ["math"]
 
 [dependencies]
+bytemuck = { version = "1.2", optional = true }

@@ -9,6 +9,11 @@ macro_rules! matrix {
             $( pub $field : $vec<T>, )*
         }
 
+        #[cfg(feature = "bytemuck")]
+        unsafe impl<T> bytemuck::Zeroable for $name<T> {}
+        #[cfg(feature = "bytemuck")]
+        unsafe impl<T: Copy + 'static> bytemuck::Pod for $name<T> {}
+
         impl<T> From<[[T; $inner]; $outer]> for $name<T> {
             fn from([$($field),*]: [[T; $inner]; $outer]) -> Self {
                 $name {

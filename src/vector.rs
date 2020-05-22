@@ -7,6 +7,11 @@ macro_rules! vec {
             $( pub $field : T, )*
         }
 
+        #[cfg(feature = "bytemuck")]
+        unsafe impl<T> bytemuck::Zeroable for $name<T> {}
+        #[cfg(feature = "bytemuck")]
+        unsafe impl<T: Copy + 'static> bytemuck::Pod for $name<T> {}
+
         impl<T> From<$fixed> for $name<T> {
             fn from([$($field),*]: $fixed) -> Self {
                 $name {

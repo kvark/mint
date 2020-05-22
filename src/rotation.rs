@@ -14,6 +14,11 @@ pub struct Quaternion<T> {
     pub s: T,
 }
 
+#[cfg(feature = "bytemuck")]
+unsafe impl<T> bytemuck::Zeroable for Quaternion<T> {}
+#[cfg(feature = "bytemuck")]
+unsafe impl<T: Copy + 'static> bytemuck::Pod for Quaternion<T> {}
+
 impl<T> From<[T; 4]> for Quaternion<T> {
     fn from([x, y, z, s]: [T; 4]) -> Self {
         Quaternion {
@@ -73,6 +78,11 @@ pub enum ExtraZXZ {}
 /// Extrinsic rotation around Z, then Y, then X axis.
 #[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 pub enum ExtraZYX {}
+
+#[cfg(feature = "bytemuck")]
+unsafe impl<T, B> bytemuck::Zeroable for EulerAngles<T, B> {}
+#[cfg(feature = "bytemuck")]
+unsafe impl<T: Copy + 'static, B: Copy + 'static> bytemuck::Pod for EulerAngles<T, B> {}
 
 impl<T, B> From<[T; 3]> for EulerAngles<T, B> {
     fn from([a, b, c]: [T; 3]) -> Self {
