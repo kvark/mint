@@ -41,6 +41,28 @@ macro_rules! vec {
                 }
             }
         }
+
+        #[cfg(feature = "serde")]
+        impl<T> ::serde::Serialize for $name<T>
+            where T: ::serde::Serialize
+        {
+            fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+                where S: ::serde::Serializer
+            {
+                AsRef::<$fixed>::as_ref(self).serialize(serializer)
+            }
+        }
+
+        #[cfg(feature = "serde")]
+        impl<'de, T> ::serde::Deserialize<'de> for $name<T>
+            where T: ::serde::Deserialize<'de>,
+        {
+            fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+                where D: ::serde::Deserializer<'de>
+            {
+                <$fixed>::deserialize(deserializer).map($name::<T>::from)
+            }
+        }
     }
 }
 

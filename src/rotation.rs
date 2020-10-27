@@ -1,7 +1,6 @@
 use core::marker::PhantomData;
 use vector::Vector3;
 
-
 /// Standard quaternion represented by the scalar and vector parts.
 /// Useful for representing rotation in 3D space.
 /// Corresponds to a right-handed rotation matrix.
@@ -30,9 +29,32 @@ impl<T> Into<[T; 4]> for Quaternion<T> {
 }
 
 impl<T> AsRef<[T; 4]> for Quaternion<T> {
-    fn as_ref(&self) -> &[T; 4] { unsafe { ::core::mem::transmute(self) } }
+    fn as_ref(&self) -> &[T; 4] {
+        unsafe { ::core::mem::transmute(self) }
+    }
 }
 
+#[cfg(feature = "serde")]
+impl<T> ::serde::Serialize for Quaternion<T>
+    where T: ::serde::Serialize
+{
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+        where S: ::serde::Serializer
+    {
+        AsRef::<[T; 4]>::as_ref(self).serialize(serializer)
+    }
+}
+
+#[cfg(feature = "serde")]
+impl<'de, T> ::serde::Deserialize<'de> for Quaternion<T>
+    where T: ::serde::Deserialize<'de>
+{
+    fn deserialize<S>(deserializer: S) -> Result<Self, S::Error>
+        where S: ::serde::Deserializer<'de>
+    {
+        <[T; 4]>::deserialize(deserializer).map(Quaternion::<T>::from)
+    }
+}
 
 /// Abstract set of Euler angles in 3D space. The basis of angles
 /// is defined by the generic parameter `B`.
@@ -88,6 +110,32 @@ impl<T, B> From<[T; 3]> for EulerAngles<T, B> {
 impl<T, B> Into<[T; 3]> for EulerAngles<T, B> {
     fn into(self) -> [T; 3] {
         [self.a, self.b, self.c]
+    }
+}
+
+#[cfg(feature = "serde")]
+impl<T, B> ::serde::Serialize for EulerAngles<T, B>
+where
+    T: ::serde::Serialize,
+{
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: ::serde::Serializer,
+    {
+        [&self.a, &self.b, &self.c].serialize(serializer)
+    }
+}
+
+#[cfg(feature = "serde")]
+impl<'de, T, B> ::serde::Deserialize<'de> for EulerAngles<T, B>
+where
+    T: ::serde::Deserialize<'de>,
+{
+    fn deserialize<S>(deserializer: S) -> Result<Self, S::Error>
+    where
+        S: ::serde::Deserializer<'de>,
+    {
+        <[T; 3]>::deserialize(deserializer).map(EulerAngles::<T, B>::from)
     }
 }
 

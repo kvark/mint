@@ -1,5 +1,8 @@
 # Change Log
 
+## v0.5.6 (tbd)
+- add serde support
+
 ## v0.5.5 (13-04-2020)
 - fixed the `Quaternion` memory layout
 
