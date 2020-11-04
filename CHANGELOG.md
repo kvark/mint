@@ -1,6 +1,6 @@
 # Change Log
 
-## v0.5.6 (tbd)
+## v0.5.6 (04-11-2020)
 - add serde support
 
 ## v0.5.5 (13-04-2020)

@@ -36,10 +36,12 @@ impl<T> AsRef<[T; 4]> for Quaternion<T> {
 
 #[cfg(feature = "serde")]
 impl<T> ::serde::Serialize for Quaternion<T>
-    where T: ::serde::Serialize
+where
+    T: ::serde::Serialize,
 {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-        where S: ::serde::Serializer
+    where
+        S: ::serde::Serializer,
     {
         AsRef::<[T; 4]>::as_ref(self).serialize(serializer)
     }
@@ -47,10 +49,12 @@ impl<T> ::serde::Serialize for Quaternion<T>
 
 #[cfg(feature = "serde")]
 impl<'de, T> ::serde::Deserialize<'de> for Quaternion<T>
-    where T: ::serde::Deserialize<'de>
+where
+    T: ::serde::Deserialize<'de>,
 {
     fn deserialize<S>(deserializer: S) -> Result<Self, S::Error>
-        where S: ::serde::Deserializer<'de>
+    where
+        S: ::serde::Deserializer<'de>,
     {
         <[T; 4]>::deserialize(deserializer).map(Quaternion::<T>::from)
     }
