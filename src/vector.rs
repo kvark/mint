@@ -1,3 +1,5 @@
+use core::ops::{Mul, Div};
+
 macro_rules! vec {
     ($name:ident [ $($field:ident),* ] = $fixed:ty) => {
         #[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
@@ -25,6 +27,30 @@ macro_rules! vec {
 
         impl<T> AsRef<$fixed> for $name<T> {
             fn as_ref(&self) -> &$fixed { unsafe { ::core::mem::transmute(self) } }
+        }
+
+        impl<T: Mul<Output = T> + Copy> Mul<T> for $name<T> {
+            type Output = Self;
+
+            fn mul(self, rhs: T) -> Self::Output {
+                let mut out = self;
+                $(
+                    out.$field = out.$field * rhs;
+                )*
+                out
+            }
+        }
+
+        impl<T: Div<Output = T> + Copy> Div<T> for $name<T> {
+            type Output = Self;
+
+            fn div(self, rhs: T) -> Self::Output {
+                let mut out = self;
+                $(
+                    out.$field = out.$field / rhs;
+                )*
+                out
+            }
         }
 
         impl<T: Clone> $name<T> {

@@ -333,3 +333,9 @@ representation_tests!( point3_serde => Point3<f32> : [f32; 3] );
 
 representation_tests!( euler_angles => EulerAngles<f32, f32> : [f32; 3] );
 representation_tests!( quaternions => Quaternion<f32> : [f32; 4] );
+
+#[test]
+fn mul_div() {
+    assert_eq!(Point2 { x: 2.0, y: 2.0 } * 2.0, Point2 { x: 4.0, y: 4.0 });
+    assert_eq!(Point2 { x: 2.0, y: 2.0 } / 2.0, Point2 { x: 1.0, y: 1.0 });
+}
