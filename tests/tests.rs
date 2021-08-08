@@ -1,4 +1,12 @@
-extern crate mint;
+#![deny(
+    missing_docs,
+    rust_2018_compatibility,
+    rust_2018_idioms,
+    future_incompatible,
+    nonstandard_style,
+    unused
+)]
+
 use mint::{
     ColumnMatrix2, ColumnMatrix2x3, ColumnMatrix2x4, ColumnMatrix3, ColumnMatrix3x2,
     ColumnMatrix3x4, ColumnMatrix4, ColumnMatrix4x2, ColumnMatrix4x3,
@@ -279,8 +287,8 @@ macro_rules! representation_tests {
     ($module:ident => $name:ty : $fixed:ty ) => {
         #[cfg(all(feature = "serde", test))]
         mod $module {
-            extern crate serde_json;
-            use *;
+            use super::*;
+            use serde_json;
 
             #[test]
             fn serialize() {
