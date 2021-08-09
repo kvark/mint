@@ -11,7 +11,8 @@ Designed to serve as an interoperability standard between libraries.
     rust_2018_idioms,
     future_incompatible,
     nonstandard_style,
-    unused
+    unused,
+    clippy::all
 )]
 
 mod matrix;
