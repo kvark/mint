@@ -1,5 +1,0 @@
-language: rust
-rust:
-  - stable
-script:
-  - cargo test --features serde --all

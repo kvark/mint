@@ -1,5 +1,5 @@
 # mint
-[![Build Status](https://travis-ci.org/kvark/mint.svg)](https://travis-ci.org/kvark/mint)
+[![Build Status](https://github.com/kvark/mint/workflows/check/badge.svg)](https://github.com/kvark/mint/actions)
 [![Docs](https://docs.rs/mint/badge.svg)](https://docs.rs/mint)
 [![Crates.io](https://img.shields.io/crates/v/mint.svg?maxAge=2592000)](https://crates.io/crates/mint)
 
