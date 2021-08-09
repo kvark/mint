@@ -22,9 +22,9 @@ impl<T> From<[T; 4]> for Quaternion<T> {
     }
 }
 
-impl<T> Into<[T; 4]> for Quaternion<T> {
-    fn into(self) -> [T; 4] {
-        [self.v.x, self.v.y, self.v.z, self.s]
+impl<T> From<Quaternion<T>> for [T; 4] {
+    fn from(quaternion: Quaternion<T>) -> [T; 4] {
+        [quaternion.v.x, quaternion.v.y, quaternion.v.z, quaternion.s]
     }
 }
 
@@ -111,9 +111,9 @@ impl<T, B> From<[T; 3]> for EulerAngles<T, B> {
     }
 }
 
-impl<T, B> Into<[T; 3]> for EulerAngles<T, B> {
-    fn into(self) -> [T; 3] {
-        [self.a, self.b, self.c]
+impl<T, B> From<EulerAngles<T, B>> for [T; 3] {
+    fn from(euler: EulerAngles<T, B>) -> [T; 3] {
+        [euler.a, euler.b, euler.c]
     }
 }
 

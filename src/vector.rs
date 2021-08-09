@@ -17,9 +17,9 @@ macro_rules! vec {
             }
         }
 
-        impl<T> Into<$fixed> for $name<T> {
-            fn into(self) -> $fixed {
-                [$( self.$field.into() ),*]
+        impl<T> From<$name<T>> for $fixed {
+            fn from(name: $name<T>) -> $fixed {
+                [$(name.$field.into() ),*]
             }
         }
 

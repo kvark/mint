@@ -19,9 +19,9 @@ macro_rules! matrix {
             }
         }
 
-        impl<T> Into<[[T; $inner]; $outer]> for $name<T> {
-            fn into(self) -> [[T; $inner]; $outer] {
-                [$( self.$field.into() ),*]
+        impl<T> From<$name<T>> for [[T; $inner]; $outer] {
+            fn from(name: $name<T>) -> [[T; $inner]; $outer] {
+                [$( name.$field.into() ),*]
             }
         }
 
@@ -39,9 +39,9 @@ macro_rules! matrix {
             }
         }
 
-        impl<T> Into<[T; $inner * $outer]> for $name<T> {
-            fn into(self) -> [T; $inner * $outer] {
-                let $name { $($field),* } = self;
+        impl<T> From<$name<T>> for [T; $inner * $outer] {
+            fn from(name: $name<T>) -> [T; $inner * $outer] {
+                let $name { $($field),* } = name;
                 [
                     $( $( $field.$sub ),* ),*
                 ]
