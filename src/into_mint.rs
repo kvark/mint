@@ -10,11 +10,11 @@ pub trait IntoMint: Into<Self::MintType> {
 
 macro_rules! into_mint_identity {
     ($($ty:ident),*) => {
-    	$(
-	        impl IntoMint for $ty {
-	            type MintType = $ty;
-	        }
-	    )*
+        $(
+            impl IntoMint for $ty {
+                type MintType = $ty;
+            }
+        )*
     };
 }
 
