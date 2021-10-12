@@ -1,4 +1,5 @@
 use crate::vector::{Vector2, Vector3, Vector4};
+use crate::IntoMint;
 
 macro_rules! matrix {
     ($name:ident : $vec:ident[ $($field:ident[$($sub:ident),*] = $index:expr),* ] = ($inner:expr, $outer:expr)) => {
@@ -7,6 +8,10 @@ macro_rules! matrix {
         #[allow(missing_docs)] //TODO: actually have docs
         pub struct $name<T> {
             $( pub $field : $vec<T>, )*
+        }
+
+        impl<T> IntoMint for $name<T> {
+            type MintType = $name<T>;
         }
 
         impl<T> From<[[T; $inner]; $outer]> for $name<T> {

@@ -1,3 +1,5 @@
+use crate::IntoMint;
+
 macro_rules! vec {
     ($name:ident [ $($field:ident),* ] = $fixed:ty) => {
         #[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
@@ -5,6 +7,10 @@ macro_rules! vec {
         #[allow(missing_docs)] //TODO: actually have docs
         pub struct $name<T> {
             $( pub $field : T, )*
+        }
+
+        impl<T> IntoMint for $name<T> {
+            type MintType = $name<T>;
         }
 
         impl<T> From<$fixed> for $name<T> {

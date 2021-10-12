@@ -1,4 +1,5 @@
 use crate::vector::Vector3;
+use crate::IntoMint;
 use core::marker::PhantomData;
 
 /// Standard quaternion represented by the scalar and vector parts.
@@ -11,6 +12,10 @@ pub struct Quaternion<T> {
     pub v: Vector3<T>,
     /// Scalar part of a quaternion.
     pub s: T,
+}
+
+impl<T> IntoMint for Quaternion<T> {
+    type MintType = Quaternion<T>;
 }
 
 impl<T> From<[T; 4]> for Quaternion<T> {
