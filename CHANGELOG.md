@@ -1,5 +1,10 @@
 # Change Log
 
+### v0.5.8
+- add `IntoMint` trait for unique conversions ([#68])
+
+[#68]: https://github.com/kvark/mint/pull/68
+
 ### v0.5.7 (25-09-2021)
 - update to rust2018
 - implement `From<mint::Xxx>` for fixed-size arrays
