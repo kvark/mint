@@ -15,10 +15,12 @@ Designed to serve as an interoperability standard between libraries.
     clippy::all
 )]
 
+mod into_mint;
 mod matrix;
 mod rotation;
 mod vector;
 
+pub use into_mint::*;
 pub use matrix::*;
 pub use rotation::*;
 pub use vector::*;
