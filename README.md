@@ -60,3 +60,11 @@ This crate offers the following types:
 ### Euler Angles
 
 * [`EulerAngles`](https://docs.rs/mint/*/mint/struct.EulerAngles.html)
+
+## MSRV
+
+mint supports Rust 1.52.1 and newer. From time to time, mint may increase the minimum supported Rust version in a minor version bump in order to take advantage of new Rust features.
+
+## License
+
+mint is available under the terms of the MIT license. See [LICENSE](LICENSE) or <https://opensource.org/licenses/MIT> for more information.
