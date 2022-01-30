@@ -39,6 +39,12 @@ impl<T> AsRef<[T; 4]> for Quaternion<T> {
     }
 }
 
+impl<T> AsMut<[T; 4]> for Quaternion<T> {
+    fn as_mut(&mut self) -> &mut [T; 4] {
+        unsafe { ::core::mem::transmute(self) }
+    }
+}
+
 #[cfg(feature = "serde")]
 impl<T> ::serde::Serialize for Quaternion<T>
 where

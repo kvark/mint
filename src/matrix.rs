@@ -34,6 +34,10 @@ macro_rules! matrix {
             fn as_ref(&self) -> &[[T; $inner]; $outer] { unsafe { ::core::mem::transmute(self) } }
         }
 
+        impl<T> AsMut<[[T; $inner]; $outer]> for $name<T> {
+            fn as_mut(&mut self) -> &mut [[T; $inner]; $outer] { unsafe { ::core::mem::transmute(self) } }
+        }
+
         impl<T: Clone> From<[T; $inner * $outer]> for $name<T> {
             fn from(m: [T; $inner * $outer]) -> Self {
                 $name {
@@ -55,6 +59,10 @@ macro_rules! matrix {
 
         impl<T> AsRef<[T; $inner * $outer]> for $name<T> {
             fn as_ref(&self) -> &[T; $inner * $outer] { unsafe { ::core::mem::transmute(self) } }
+        }
+
+        impl<T> AsMut<[T; $inner * $outer]> for $name<T> {
+            fn as_mut(&mut self) -> &mut [T; $inner * $outer] { unsafe { ::core::mem::transmute(self) } }
         }
 
         #[cfg(feature = "serde")]
