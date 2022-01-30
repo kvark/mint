@@ -33,6 +33,10 @@ macro_rules! vec {
             fn as_ref(&self) -> &$fixed { unsafe { ::core::mem::transmute(self) } }
         }
 
+        impl<T> AsMut<$fixed> for $name<T> {
+            fn as_mut(&mut self) -> &mut $fixed { unsafe { ::core::mem::transmute(self) } }
+        }
+
         impl<T: Clone> $name<T> {
             #[allow(missing_docs)]
             pub fn from_slice(slice: &[T]) -> Self {
