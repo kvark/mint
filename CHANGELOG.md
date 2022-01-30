@@ -1,6 +1,9 @@
 # Change Log
 
-### v0.5.8
+### v0.5.9 (XX-XX-2022)
+- implement `AsMut<array>`
+
+### v0.5.8 (22-10-2021)
 - add `IntoMint` trait for unique conversions ([#68])
 
 [#68]: https://github.com/kvark/mint/pull/68
