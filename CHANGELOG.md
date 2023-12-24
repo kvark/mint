@@ -1,6 +1,9 @@
 # Change Log
 
-### v0.5.9 (XX-XX-2022)
+### v0.5.10 (01-01-2024)
+- implement `Default`
+
+### v0.5.9 (02-02-2022)
 - implement `AsMut<array>`
 
 ### v0.5.8 (22-10-2021)

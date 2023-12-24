@@ -3,7 +3,7 @@ use crate::IntoMint;
 
 macro_rules! matrix {
     ($name:ident : $vec:ident[ $($field:ident[$($sub:ident),*] = $index:expr),* ] = ($inner:expr, $outer:expr)) => {
-        #[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
+        #[derive(Clone, Copy, Debug, Default, Hash, PartialEq, PartialOrd, Eq, Ord)]
         #[repr(C)]
         #[allow(missing_docs)] //TODO: actually have docs
         pub struct $name<T> {

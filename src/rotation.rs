@@ -5,7 +5,7 @@ use core::marker::PhantomData;
 /// Standard quaternion represented by the scalar and vector parts.
 /// Useful for representing rotation in 3D space.
 /// Corresponds to a right-handed rotation matrix.
-#[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
+#[derive(Clone, Copy, Debug, Default, Hash, PartialEq, PartialOrd, Eq, Ord)]
 #[repr(C)]
 pub struct Quaternion<T> {
     /// Vector part of a quaternion.
@@ -110,6 +110,17 @@ pub enum ExtraZXZ {}
 /// Extrinsic rotation around Z, then Y, then X axis.
 #[derive(Clone, Copy, Debug, Hash, PartialEq, PartialOrd, Eq, Ord)]
 pub enum ExtraZYX {}
+
+impl<T: Default, B> Default for EulerAngles<T, B> {
+    fn default() -> Self {
+        Self {
+            a: T::default(),
+            b: T::default(),
+            c: T::default(),
+            marker: PhantomData,
+        }
+    }
+}
 
 impl<T, B> From<[T; 3]> for EulerAngles<T, B> {
     fn from([a, b, c]: [T; 3]) -> Self {
